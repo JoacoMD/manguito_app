@@ -1,0 +1,7 @@
+package app.manguito.backend.repositories;
+
+import app.manguito.backend.entities.Rol;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RolRepository extends JpaRepository<Rol, Long> {
+}
