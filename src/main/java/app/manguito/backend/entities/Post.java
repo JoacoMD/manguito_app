@@ -1,7 +1,11 @@
 package app.manguito.backend.entities;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +16,16 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-//    private List<String> imagenes;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "post_imagen",
+            joinColumns = @JoinColumn(name="post_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "imagen_id", referencedColumnName = "id")
+    )
+    private List<Imagen> imagenes;
+
     @Column(name = "texto")
     private String texto;
 
@@ -53,5 +66,12 @@ public class Post {
 
     public void setEmprendimiento(Emprendimiento emprendimiento) {
         this.emprendimiento = emprendimiento;
+    }
+
+    public List<Imagen> getImagenes() {
+        if (this.imagenes == null) {
+            this.imagenes = new ArrayList<>();
+        }
+        return this.imagenes;
     }
 }

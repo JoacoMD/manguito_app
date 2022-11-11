@@ -14,8 +14,9 @@ public class RedSocial {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "icono")
-    private String icono;
+    @ManyToOne
+    @JoinColumn(name = "icono_id")
+    private Imagen icono;
 
     public Long getId() {
         return id;
@@ -33,11 +34,11 @@ public class RedSocial {
         this.nombre = nombre;
     }
 
-    public String getIcono() {
+    public Imagen getIcono() {
         return icono;
     }
 
-    public void setIcono(String icono) {
+    public void setIcono(Imagen icono) {
         this.icono = icono;
     }
 }

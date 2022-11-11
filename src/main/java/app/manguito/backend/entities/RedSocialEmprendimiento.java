@@ -19,10 +19,6 @@ public class RedSocialEmprendimiento {
     @JoinColumn(name = "red_social_id")
     private RedSocial redSocial;
 
-    @ManyToOne
-    @JoinColumn(name = "emprendimiento_id")
-    private Emprendimiento emprendimiento;
-
     public Long getId() {
         return id;
     }
@@ -47,11 +43,4 @@ public class RedSocialEmprendimiento {
         this.redSocial = redSocial;
     }
 
-    public Emprendimiento getEmprendimiento() {
-        return emprendimiento;
-    }
-
-    public void setEmprendimiento(Emprendimiento emprendimiento) {
-        this.emprendimiento = emprendimiento;
-    }
 }

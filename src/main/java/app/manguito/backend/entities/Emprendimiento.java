@@ -1,5 +1,10 @@
 package app.manguito.backend.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +20,13 @@ public class Emprendimiento {
     @Column(name = "nombre")
     private String nombreEmprendimiento;
 
-    @Column(name = "imagen_perfil")
-    private String imagenPerfil;
+    @ManyToOne
+    @JoinColumn(name = "imagen_perfil_id")
+    private Imagen imagenPerfil;
 
-    @Column(name = "imagen_banner")
-    private String banner;
+    @ManyToOne
+    @JoinColumn(name = "imagen_banner_id")
+    private Imagen banner;
 
     @Column(name = "url")
     private String url;
@@ -31,11 +38,12 @@ public class Emprendimiento {
     private Double precioManguito;
 
     @Column(name = "mostrar_top_donadores")
-    private Boolean mostrarTopDonadores;
+    private Boolean mostrarTopDonadores = true;
 
     @Column(name = "ocultar_manguitos_recibidos")
-    private Boolean ocultarManguitosRecibidos;
+    private Boolean ocultarManguitosRecibidos = false;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "emprendimiento_categoria",
@@ -44,14 +52,16 @@ public class Emprendimiento {
     )
     private List<Categoria> categorias;
 
-    @OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
-    private List<Plan> planes;
-
-    @OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JoinColumn(name = "emprendimiento_id")
     private List<RedSocialEmprendimiento> redesSociales;
 
     @OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
-    private List<Post> posts;
+    private List<Plan> planes;
+
+//    @OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
+//    private List<Post> posts;
 
     public Long getId() {
         return id;
@@ -69,19 +79,19 @@ public class Emprendimiento {
         this.nombreEmprendimiento = nombreEmprendimiento;
     }
 
-    public String getImagenPerfil() {
+    public Imagen getImagenPerfil() {
         return imagenPerfil;
     }
 
-    public void setImagenPerfil(String imagenPerfil) {
+    public void setImagenPerfil(Imagen imagenPerfil) {
         this.imagenPerfil = imagenPerfil;
     }
 
-    public String getBanner() {
+    public Imagen getBanner() {
         return banner;
     }
 
-    public void setBanner(String banner) {
+    public void setBanner(Imagen banner) {
         this.banner = banner;
     }
 
@@ -158,14 +168,10 @@ public class Emprendimiento {
         this.redesSociales = redesSociales;
     }
 
-    public List<Post> getPosts() {
-        if (this.posts == null) {
-            this.posts = new ArrayList<>();
-        }
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
+//    public List<Post> getPosts() {
+//        if (this.posts == null) {
+//            this.posts = new ArrayList<>();
+//        }
+//        return posts;
+//    }
 }
