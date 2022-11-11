@@ -1,5 +1,6 @@
 package app.manguito.backend.controllers;
 
+import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
 import app.manguito.backend.services.EmprendimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,14 @@ public class EmprendimientoController {
         }
 
         return ResponseEntity.ok(emprendimientoDTO);
+    }
+
+    @GetMapping(path = "/{urlEmprendimiento}/donaciones")
+    public ResponseEntity<DonacionesDTO> getDonacionesEmprendimiento(@PathVariable String urlEmprendimiento) {
+        DonacionesDTO dto = emprendimientoService.getDonacionesByEmprendimientoUrl(urlEmprendimiento);
+
+        if (dto == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.ok(dto);
     }
 }

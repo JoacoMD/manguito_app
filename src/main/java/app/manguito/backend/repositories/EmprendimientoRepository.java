@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, Long> {
 
     Emprendimiento findByUrl(String url);
+
+    boolean existsByUrl(String url);
 }
