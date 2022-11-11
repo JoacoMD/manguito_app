@@ -1,25 +1,26 @@
 package app.manguito.backend.controllers;
 
+import app.manguito.backend.dto.UsuarioDTO;
 import app.manguito.backend.entities.Usuario;
-import app.manguito.backend.repositories.UsuarioRepository;
+import app.manguito.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
 
 @RequestMapping("/users")
 @RestController
 public class UsuarioController {
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    UsuarioService usuarioService;
 
-    @GetMapping
-    public ResponseEntity<List<Usuario>> getAll() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
-        return ResponseEntity.ok(usuarios);
+    @GetMapping(path = "/current")
+    public ResponseEntity<UsuarioDTO> getCurrent(Principal principal) {
+        Usuario usuario = usuarioService.findUsuarioByMail(principal.getName());
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setMail(usuario.getMail());
+        return ResponseEntity.ok(dto);
     }
 }
