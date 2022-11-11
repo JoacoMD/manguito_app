@@ -2,6 +2,7 @@ package app.manguito.backend.services.impl;
 
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
+import app.manguito.backend.entities.Emprendimiento;
 import app.manguito.backend.entities.Suscripcion;
 import app.manguito.backend.entities.TransaccionManguito;
 import app.manguito.backend.mappers.EmprendimientoMapper;
@@ -27,9 +28,26 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     @Autowired
     private SuscripcionRepository suscripcionRepository;
 
+    @Autowired
+    private EmprendimientoMapper emprendimientoMapper;
+
     @Override
     public EmprendimientoDTO findEmprendimientoByUrl(String url) {
-        return EmprendimientoMapper.INSTANCE.toDTO(emprendimientoRepository.findByUrl(url));
+        return emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
+    }
+
+    @Override
+    public Emprendimiento saveEmprendimiento(EmprendimientoDTO dto) {
+        return emprendimientoRepository.save(emprendimientoMapper.toEntity(dto));
+    }
+
+    @Override
+    public EmprendimientoDTO updateEmprendimiento(EmprendimientoDTO dto) {
+        Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(dto.getUrl());
+        if (emprendimiento == null) return null;
+        emprendimiento = emprendimientoMapper.update(emprendimiento, dto);
+        emprendimiento = emprendimientoRepository.save(emprendimiento);
+        return emprendimientoMapper.toDTO(emprendimiento);
     }
 
     @Override

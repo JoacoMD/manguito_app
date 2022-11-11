@@ -1,12 +1,12 @@
 package app.manguito.backend.services.impl;
 
 import app.manguito.backend.dto.NuevoUsuarioDTO;
-import app.manguito.backend.dto.UsuarioDTO;
 import app.manguito.backend.entities.Rol;
 import app.manguito.backend.entities.Usuario;
-import app.manguito.backend.repositories.EmprendimientoRepository;
+import app.manguito.backend.mappers.UsuarioMapper;
 import app.manguito.backend.repositories.RolRepository;
 import app.manguito.backend.repositories.UsuarioRepository;
+import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +19,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioRepository userRepository;
 
     @Autowired
-    private EmprendimientoRepository emprendimientoRepository;
+    private UsuarioMapper usuarioMapper;
 
     @Autowired
     private RolRepository roleRepository;
@@ -27,11 +27,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmprendimientoService emprendimientoService;
+
 
     @Override
     public void saveUsuario(NuevoUsuarioDTO usuarioDTO) {
-        Usuario user = new Usuario();
-        user.setMail(usuarioDTO.getMail());
+        Usuario user = usuarioMapper.toNewUser(usuarioDTO);
         user.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
 
         Rol role = roleRepository.findByNombre("ROLE_USER");
@@ -39,6 +41,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             role = checkRoleExist();
         }
         user.setRol(role);
+        userRepository.save(user);
+        user.setEmprendimiento(emprendimientoService.saveEmprendimiento(usuarioDTO.getEmprendimiento()));
         userRepository.save(user);
     }
 
