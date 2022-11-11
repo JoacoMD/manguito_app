@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.springframework.util.Base64Utils;
 
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface FileMapper {
 
     default String byteArrayToString(byte[] file) {

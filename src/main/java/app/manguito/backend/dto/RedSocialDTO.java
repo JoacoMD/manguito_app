@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class RedSocialDTO {
 
+    private Long id;
+
     private String nombre;
 
     private ImagenDTO icono;

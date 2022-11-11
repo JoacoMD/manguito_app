@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class RedSocialEmprendimientoDTO {
 
+    private Long id;
+
     private String url;
 
     private RedSocialDTO redSocial;

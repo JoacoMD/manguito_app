@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class PlanDTO {
 
+    private Long id;
+
     private String nombre;
 
     private Double precio;
