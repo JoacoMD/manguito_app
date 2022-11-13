@@ -31,6 +31,9 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     @Autowired
     private EmprendimientoMapper emprendimientoMapper;
 
+    @Autowired
+    private TransaccionMapper transaccionMapper;
+
     @Override
     public EmprendimientoDTO findEmprendimientoByUrl(String url) {
         return emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
@@ -57,8 +60,8 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
         List<TransaccionManguito> manguitos = manguitoRepository.findAllByDestinatario_Url(emprendimientoUrl);
         List<Suscripcion> suscripciones = suscripcionRepository.findAllByDestinatario_Url(emprendimientoUrl);
         DonacionesDTO dto = new DonacionesDTO();
-        dto.setManguitos(TransaccionMapper.INSTANCE.toManguitoDTOList(manguitos));
-        dto.setSuscripciones(TransaccionMapper.INSTANCE.toSuscripcionDTOList(suscripciones));
+        dto.setManguitos(transaccionMapper.toManguitoDTOList(manguitos));
+        dto.setSuscripciones(transaccionMapper.toSuscripcionDTOList(suscripciones));
         return dto;
     }
 }

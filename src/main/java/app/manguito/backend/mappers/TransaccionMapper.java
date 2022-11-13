@@ -6,16 +6,23 @@ import app.manguito.backend.entities.Suscripcion;
 import app.manguito.backend.entities.TransaccionManguito;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring", imports = {LocalDateTime.class})
 public interface TransaccionMapper {
 
-    TransaccionMapper INSTANCE = Mappers.getMapper(TransaccionMapper.class);
-
     DonacionManguitoDTO toManguitoDTO(TransaccionManguito transaccionManguito);
+
+    @Mapping(target = "destinatario.id", source = "emprendimientoId")
+    @Mapping(target = "fecha", expression = "java(LocalDateTime.now())")
+    TransaccionManguito toNuevoManguito(DonacionManguitoDTO donacionManguitoDTO, Long emprendimientoId);
+
+    @Mapping(target = "destinatario.id", source = "emprendimientoId")
+    @Mapping(target = "fecha", expression = "java(LocalDateTime.now())")
+    @Mapping(target = "planComprado.id", source = "suscripcionDTO.plan.id")
+    Suscripcion toNuevaSuscripcion(SuscripcionDTO suscripcionDTO, Long emprendimientoId);
 
     @Mapping(target = "plan", source = "planComprado")
     SuscripcionDTO toSuscripcionDTO(Suscripcion suscripcionDTO);
