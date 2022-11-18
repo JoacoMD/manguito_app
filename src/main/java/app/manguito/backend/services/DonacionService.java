@@ -2,10 +2,12 @@ package app.manguito.backend.services;
 
 import app.manguito.backend.dto.DonacionManguitoDTO;
 import app.manguito.backend.dto.NuevaDonacionDTO;
+import app.manguito.backend.dto.SuscripcionDTO;
 
 public interface DonacionService {
 
     String iniciarDonacionManguitos(NuevaDonacionDTO<DonacionManguitoDTO> donacion);
+    String iniciarSuscripcion(NuevaDonacionDTO<SuscripcionDTO> donacion);
 
-    void procesarDonacionManguitos(Long paymentId, Long transaccionId);
+    void procesarDonacion(Long paymentId, Long transaccionId);
 }

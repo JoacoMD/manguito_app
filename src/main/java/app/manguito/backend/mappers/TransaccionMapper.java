@@ -25,8 +25,9 @@ public interface TransaccionMapper {
 
     @Mapping(target = "destinatario.id", source = "emprendimientoId")
     @Mapping(target = "fecha", expression = "java(LocalDateTime.now())")
-    @Mapping(target = "planComprado.id", source = "suscripcionDTO.plan.id")
-    Suscripcion toNuevaSuscripcion(SuscripcionDTO suscripcionDTO, Long emprendimientoId);
+    @Mapping(target = "estado", expression = "java(EstadoPago.PENDIENTE.getCodigo())")
+    @Mapping(target = "planComprado.id", source = "planId")
+    Suscripcion toNuevaSuscripcion(SuscripcionDTO suscripcionDTO, Long emprendimientoId, Long planId);
 
     @Mapping(target = "plan", source = "planComprado")
     SuscripcionDTO toSuscripcionDTO(Suscripcion suscripcionDTO);

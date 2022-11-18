@@ -3,12 +3,13 @@ package app.manguito.backend.services.impl;
 import app.manguito.backend.EstadoPago;
 import app.manguito.backend.dto.DonacionManguitoDTO;
 import app.manguito.backend.dto.NuevaDonacionDTO;
-import app.manguito.backend.entities.Emprendimiento;
-import app.manguito.backend.entities.TransaccionManguito;
+import app.manguito.backend.dto.SuscripcionDTO;
+import app.manguito.backend.entities.*;
+import app.manguito.backend.exception.BadRequestException;
 import app.manguito.backend.mappers.TransaccionMapper;
-import app.manguito.backend.repositories.EmprendimientoRepository;
-import app.manguito.backend.repositories.TransaccionManguitoRepository;
+import app.manguito.backend.repositories.*;
 import app.manguito.backend.services.DonacionService;
+import app.manguito.backend.services.MercadoPagoService;
 import com.mercadopago.resources.payment.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,19 @@ public class DonacionServiceImpl implements DonacionService {
     private TransaccionManguitoRepository manguitoRepository;
 
     @Autowired
+    private SuscripcionRepository suscripcionRepository;
+
+    @Autowired
+    private TransaccionRepository transaccionRepository;
+
+    @Autowired
     private EmprendimientoRepository emprendimientoRepository;
 
     @Autowired
-    private MercadoPagoServiceImpl mercadoPagoService;
+    private PlanRepository planRepository;
+
+    @Autowired
+    private MercadoPagoService mercadoPagoService;
 
     @Autowired
     private TransaccionMapper transaccionMapper;
@@ -37,11 +47,21 @@ public class DonacionServiceImpl implements DonacionService {
         return this.mercadoPagoService.crearCheckoutUrlManguitos(transaccionManguito, emprendimiento.getPrecioManguito());
     }
 
-    public void procesarDonacionManguitos(Long paymentId, Long transaccionId) {
+    @Override
+    public String iniciarSuscripcion(NuevaDonacionDTO<SuscripcionDTO> donacion) {
+        Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(donacion.getEmprendimiento());
+        Plan plan = planRepository.findById(donacion.getDonacion().getPlan().getId()).orElseThrow(() -> new BadRequestException("Plan no existe"));
+        if (!Objects.equals(plan.getEmprendimiento().getId(), emprendimiento.getId())) return null;
+        Suscripcion suscripcion = transaccionMapper.toNuevaSuscripcion(donacion.getDonacion(), emprendimiento.getId(), plan.getId());
+        suscripcion = suscripcionRepository.save(suscripcion);
+        return this.mercadoPagoService.crearCheckoutUrlSuscripcion(suscripcion, plan);
+    }
+
+    public void procesarDonacion(Long paymentId, Long transaccionId) {
         Payment payment = mercadoPagoService.getPaymentById(paymentId);
-        TransaccionManguito transaccionManguito = manguitoRepository.getReferenceById(transaccionId);
+        Transaccion transaccion = transaccionRepository.getReferenceById(transaccionId);
         if (payment.getStatus().equalsIgnoreCase(EstadoPago.PENDIENTE.getCodigo())) return;
-        transaccionManguito.setEstado(payment.getStatus());
-        manguitoRepository.save(transaccionManguito);
+        transaccion.setEstado(payment.getStatus());
+        transaccionRepository.save(transaccion);
     }
 }
