@@ -13,8 +13,10 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +24,11 @@ import java.util.List;
 @Service
 public class MercadoPagoServiceImpl implements MercadoPagoService {
 
-    private final String accessToken = "TEST-5267572198433376-111522-81d3c9c368d38b99c2b7653070fddb6d-195418765";
+    @Value("${mercadoPago.accessToken}")
+    private String accessToken;
 
-    public MercadoPagoServiceImpl() {
+    @PostConstruct
+    public void init() {
         MercadoPagoConfig.setAccessToken(accessToken);
     }
 
