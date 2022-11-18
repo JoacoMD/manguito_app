@@ -1,5 +1,6 @@
 package app.manguito.backend.services.impl;
 
+import app.manguito.backend.EstadoPago;
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
 import app.manguito.backend.entities.Emprendimiento;
@@ -31,6 +32,9 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     @Autowired
     private EmprendimientoMapper emprendimientoMapper;
 
+    @Autowired
+    private TransaccionMapper transaccionMapper;
+
     @Override
     public EmprendimientoDTO findEmprendimientoByUrl(String url) {
         return emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
@@ -54,11 +58,11 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     public DonacionesDTO getDonacionesByEmprendimientoUrl(String emprendimientoUrl) {
         if (!emprendimientoRepository.existsByUrl(emprendimientoUrl)) return null;
 
-        List<TransaccionManguito> manguitos = manguitoRepository.findAllByDestinatario_Url(emprendimientoUrl);
-        List<Suscripcion> suscripciones = suscripcionRepository.findAllByDestinatario_Url(emprendimientoUrl);
+        List<TransaccionManguito> manguitos = manguitoRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
+        List<Suscripcion> suscripciones = suscripcionRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
         DonacionesDTO dto = new DonacionesDTO();
-        dto.setManguitos(TransaccionMapper.INSTANCE.toManguitoDTOList(manguitos));
-        dto.setSuscripciones(TransaccionMapper.INSTANCE.toSuscripcionDTOList(suscripciones));
+        dto.setManguitos(transaccionMapper.toManguitoDTOList(manguitos));
+        dto.setSuscripciones(transaccionMapper.toSuscripcionDTOList(suscripciones));
         return dto;
     }
 }

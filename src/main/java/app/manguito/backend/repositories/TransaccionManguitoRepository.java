@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TransaccionManguitoRepository extends JpaRepository<TransaccionManguito, Long> {
 
-    List<TransaccionManguito> findAllByDestinatario_Url(String url);
+    List<TransaccionManguito> findAllByDestinatario_UrlAndEstado(String url, String estado);
 }
