@@ -31,7 +31,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().permitAll() //TODO cambiar a authorize()
                 .and().httpBasic()
                 .and().rememberMe()
                     .alwaysRemember(true)

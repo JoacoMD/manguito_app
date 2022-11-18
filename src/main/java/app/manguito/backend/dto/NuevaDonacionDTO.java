@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class NuevaDonacionDTO<T extends DonacionDTO> {
 
-    Long emprendimientoId;
+    String emprendimiento;
 
     T donacion;
 }

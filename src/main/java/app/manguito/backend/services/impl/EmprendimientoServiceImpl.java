@@ -1,5 +1,6 @@
 package app.manguito.backend.services.impl;
 
+import app.manguito.backend.EstadoPago;
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
 import app.manguito.backend.entities.Emprendimiento;
@@ -57,8 +58,8 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     public DonacionesDTO getDonacionesByEmprendimientoUrl(String emprendimientoUrl) {
         if (!emprendimientoRepository.existsByUrl(emprendimientoUrl)) return null;
 
-        List<TransaccionManguito> manguitos = manguitoRepository.findAllByDestinatario_Url(emprendimientoUrl);
-        List<Suscripcion> suscripciones = suscripcionRepository.findAllByDestinatario_Url(emprendimientoUrl);
+        List<TransaccionManguito> manguitos = manguitoRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
+        List<Suscripcion> suscripciones = suscripcionRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
         DonacionesDTO dto = new DonacionesDTO();
         dto.setManguitos(transaccionMapper.toManguitoDTOList(manguitos));
         dto.setSuscripciones(transaccionMapper.toSuscripcionDTOList(suscripciones));

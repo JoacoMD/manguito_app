@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface SuscripcionRepository extends JpaRepository<Suscripcion, Long> {
 
-    List<Suscripcion> findAllByDestinatario_Url(String url);
+    List<Suscripcion> findAllByDestinatario_UrlAndEstado(String url, String estado);
 }
