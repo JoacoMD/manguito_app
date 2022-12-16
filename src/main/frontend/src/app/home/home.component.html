@@ -15,11 +15,13 @@
             class="form-control"
             id="basic-url"
             aria-describedby="basic-addon3"
+            [(ngModel)]="url"
+            [ngModelOptions]="{standalone: true}"
           />
         </div>
       </div>
       <div class="col-sm-3">
-        <a href="#" class="btn btn-lg btn-primary col">Crear cuenta</a>
+        <a class="btn btn-lg btn-primary col" (click)="goToRegister()">Crear cuenta</a>
       </div>
     </form>
   </div>

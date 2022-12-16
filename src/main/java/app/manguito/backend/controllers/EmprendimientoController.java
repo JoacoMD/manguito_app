@@ -14,6 +14,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping(path = "/emprendimientos")
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST})
 public class EmprendimientoController {
 
     @Autowired

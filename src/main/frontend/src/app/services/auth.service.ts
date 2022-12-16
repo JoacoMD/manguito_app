@@ -24,17 +24,22 @@ export class AuthService {
   /** GET heroes from the server */
   login(mail: string, password: string) {
     return this.http
-      .post<User>(
+      .post<{username: string, authorities: {authority: string}[]}>(
         'http://localhost:8080/login',
         { mail, password },
         httpOptions
       )
-      .pipe(tap((res) => this.user.next(res)));
+      .pipe(tap((res) => this.user.next(new User(res.username, res.authorities[0].authority))));
   }
 
   register({url, mail, password, passwordConfirmation}: RegisterValues) {
     return this.http.post('http://localhost:8080/register', {
       mail, password, passwordConfirmation, emprendimiento: { url }
     }, {responseType: 'text'})
+  }
+
+  autoLogin() {
+    this.http.get<User>('http://localhost:8080/users/current', { withCredentials: true })
+      .subscribe((user) => this.user.next(user))
   }
 }

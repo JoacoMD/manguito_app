@@ -15,6 +15,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.authService.user.subscribe(user => this.user = user)
+    this.authService.autoLogin()
   }
 
   title = 'manguito-frontend';

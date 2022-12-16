@@ -11,6 +11,7 @@ import java.security.Principal;
 
 @RequestMapping("/users")
 @RestController
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST})
 public class UsuarioController {
 
     @Autowired

@@ -1,6 +1,6 @@
 export class User {
   constructor(
-    public username: string,
-    public authorities: { authority: string }[]
+    public mail: string,
+    public rol: string
   ) {}
 }

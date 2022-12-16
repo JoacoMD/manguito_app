@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  public url: string = ""
+
+  constructor(private router: Router) {
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register'], {queryParams: { url: this.url }})
+  }
 }
