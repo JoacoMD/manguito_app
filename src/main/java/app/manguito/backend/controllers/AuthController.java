@@ -11,11 +11,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST})
 public class AuthController {
 
     @Autowired
@@ -25,9 +24,9 @@ public class AuthController {
     private UsuarioService usuarioService;
 
     @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
+    public ResponseEntity<Object> login(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
 
-        Authentication authObject = null;
+        Authentication authObject;
         try {
             authObject = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioDTO.getMail(), usuarioDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authObject);
@@ -35,7 +34,7 @@ public class AuthController {
             throw new Exception("Invalid credentials");
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(authObject.getPrincipal());
     }
 
     @PostMapping("/register")
