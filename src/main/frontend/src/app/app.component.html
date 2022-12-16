@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid container-md">
+    <a class="navbar-brand" routerLink="/">Manguito</a>
+    <div class="d-flex gap-2" role="search">
+      <button class="btn btn-secondary">Explorar</button>
+      <a *ngIf="!user" routerLink="/login"
+        ><button class="btn btn-primary">Iniciar Sesión</button></a
+      >
+      <a *ngIf="user"><button class="btn btn-primary">Perfil</button></a>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
