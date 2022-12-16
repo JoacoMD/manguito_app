@@ -1,12 +1,9 @@
 package app.manguito.backend.dto;
 
-import app.manguito.backend.entities.Categoria;
-import app.manguito.backend.entities.Imagen;
-import app.manguito.backend.entities.Plan;
-import app.manguito.backend.entities.RedSocialEmprendimiento;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,7 +28,7 @@ public class EmprendimientoDTO {
 
     private Boolean ocultarManguitosRecibidos;
 
-    private List<String> categorias;
+    private List<String> categorias = new ArrayList<>();
 
     private List<RedSocialEmprendimientoDTO> redesSociales;
 
