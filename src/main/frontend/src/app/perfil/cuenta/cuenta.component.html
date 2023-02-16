@@ -1,0 +1,32 @@
+<form>
+  <div class="mb-3">
+    <label for="nombre" class="form-label">Nombre</label>
+    <input class="form-control" id="nombre" placeholder="Emprendimiento">
+  </div>
+  <div class="mb-3">
+    <label for="url" class="form-label">URL</label>
+    <input class="form-control" id="url" readonly>
+  </div>
+  <div class="mb-3">
+    <label for="descripcion" class="form-label">Descripción</label>
+    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="categoria" class="form-label">Categorias</label>
+    <div class="d-flex gap-3">
+      <input class="form-control" id="categoria" placeholder="Buscar categoria...">
+      <button class="btn btn-primary">Agregar</button>
+    </div>
+  </div>
+  <div class="mb-3 form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="topDonadores" checked>
+    <label class="form-check-label" for="topDonadores">Mostrar Top Donadores</label>
+  </div>
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" role="switch" id="ocultarManguitos">
+    <label class="form-check-label" for="ocultarManguitos">Ocultar manguitos recibidos</label>
+  </div>
+  <div class="mb-3">
+    <button class="btn btn-primary">Guardar cambios</button>
+  </div>
+</form>
