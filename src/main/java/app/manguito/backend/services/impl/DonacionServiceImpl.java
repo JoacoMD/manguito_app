@@ -40,21 +40,27 @@ public class DonacionServiceImpl implements DonacionService {
     @Autowired
     private TransaccionMapper transaccionMapper;
 
-    public String iniciarDonacionManguitos(NuevaDonacionDTO<DonacionManguitoDTO> donacion) {
+    public String iniciarDonacionManguitos(NuevaDonacionDTO<DonacionManguitoDTO> donacion, boolean conMP) {
         Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(donacion.getEmprendimiento());
         TransaccionManguito transaccionManguito = transaccionMapper.toNuevoManguito(donacion.getDonacion(), emprendimiento);
+        if (!conMP) {
+            transaccionManguito.setEstado(EstadoPago.APROBADO.getCodigo());
+        }
         transaccionManguito = manguitoRepository.save(transaccionManguito);
-        return this.mercadoPagoService.crearCheckoutUrlManguitos(transaccionManguito, emprendimiento.getPrecioManguito());
+        return conMP ? this.mercadoPagoService.crearCheckoutUrlManguitos(transaccionManguito, emprendimiento.getPrecioManguito()) : "";
     }
 
     @Override
-    public String iniciarSuscripcion(NuevaDonacionDTO<SuscripcionDTO> donacion) {
+    public String iniciarSuscripcion(NuevaDonacionDTO<SuscripcionDTO> donacion, boolean conMP) {
         Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(donacion.getEmprendimiento());
         Plan plan = planRepository.findById(donacion.getDonacion().getPlan().getId()).orElseThrow(() -> new BadRequestException("Plan no existe"));
         if (!Objects.equals(plan.getEmprendimiento().getId(), emprendimiento.getId())) return null;
         Suscripcion suscripcion = transaccionMapper.toNuevaSuscripcion(donacion.getDonacion(), emprendimiento.getId(), plan.getId());
+        if (!conMP) {
+            suscripcion.setEstado(EstadoPago.APROBADO.getCodigo());
+        }
         suscripcion = suscripcionRepository.save(suscripcion);
-        return this.mercadoPagoService.crearCheckoutUrlSuscripcion(suscripcion, plan);
+        return conMP ? this.mercadoPagoService.crearCheckoutUrlSuscripcion(suscripcion, plan) : "";
     }
 
     public void procesarDonacion(Long paymentId, Long transaccionId) {

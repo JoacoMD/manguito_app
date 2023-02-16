@@ -9,13 +9,27 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
+import { PerfilComponent } from './perfil/perfil.component';
+import { CuentaComponent } from './perfil/cuenta/cuenta.component';
+import { RedesSocialesComponent } from './perfil/redes-sociales/redes-sociales.component';
+import { PagosComponent } from './perfil/pagos/pagos.component';
+import { OtrosComponent } from './perfil/otros/otros.component';
+import { EmprendimientosComponent } from './emprendimientos/emprendimientos.component';
+import { DetalleEmprendimientoComponent } from './emprendimientos/detalle-emprendimiento/detalle-emprendimiento.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    PerfilComponent,
+    CuentaComponent,
+    RedesSocialesComponent,
+    PagosComponent,
+    OtrosComponent,
+    EmprendimientosComponent,
+    DetalleEmprendimientoComponent
   ],
   imports: [
     BrowserModule,

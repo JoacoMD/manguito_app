@@ -6,8 +6,8 @@ import app.manguito.backend.dto.SuscripcionDTO;
 
 public interface DonacionService {
 
-    String iniciarDonacionManguitos(NuevaDonacionDTO<DonacionManguitoDTO> donacion);
-    String iniciarSuscripcion(NuevaDonacionDTO<SuscripcionDTO> donacion);
+    String iniciarDonacionManguitos(NuevaDonacionDTO<DonacionManguitoDTO> donacion, boolean conMP);
+    String iniciarSuscripcion(NuevaDonacionDTO<SuscripcionDTO> donacion, boolean conMP);
 
     void procesarDonacion(Long paymentId, Long transaccionId);
 }

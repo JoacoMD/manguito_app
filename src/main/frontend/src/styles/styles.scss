@@ -1,0 +1,44 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+$primary: #FAD841 !default;
+$theme-colors: (
+  "primary":    #FAD841,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+);
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap');
+
+body {
+  font-family: Inter, sans-serif;
+}
+
+.btn {
+  font-size: 16px;
+  border-radius: 48px;
+  padding: 8px 24px;
+  font-weight: bold;
+}
+
+.btn-primary {
+  --bs-btn-bg: #FAD841;
+  --bs-btn-color: $black;
+  --bs-btn-border-color: #FAD841;
+  //background-color: #FAD841;
+}
+
+.form-control-lg, .form-control {
+  border-radius: 48px;
+  padding: 8px 24px;
+}
+
+
+
+

@@ -18,10 +18,11 @@ public class DonacionController {
     private DonacionService donacionService;
 
     @PostMapping(path = "/manguitos")
-    public ResponseEntity<String> donarManguitos(@RequestBody NuevaDonacionDTO<DonacionManguitoDTO> dto) {
+    public ResponseEntity<String> donarManguitos(@RequestBody NuevaDonacionDTO<DonacionManguitoDTO> dto,
+                                                 @RequestParam("mp") boolean conMP) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(donacionService.iniciarDonacionManguitos(dto));
+                .body(donacionService.iniciarDonacionManguitos(dto, conMP));
     }
 
     @GetMapping(path = "/feedback")
@@ -35,8 +36,9 @@ public class DonacionController {
     }
 
     @PostMapping(path = "/suscripciones")
-    public ResponseEntity<String> suscribirse(@RequestBody NuevaDonacionDTO<SuscripcionDTO> dto) {
-        String url = donacionService.iniciarSuscripcion(dto);
+    public ResponseEntity<String> suscribirse(@RequestBody NuevaDonacionDTO<SuscripcionDTO> dto,
+                                              @RequestParam("mp") boolean conMP) {
+        String url = donacionService.iniciarSuscripcion(dto, conMP);
         if (url == null) return ResponseEntity.badRequest().body("Plan no pertenece a emprendimiento elegido");
         return ResponseEntity
                 .status(HttpStatus.CREATED)
