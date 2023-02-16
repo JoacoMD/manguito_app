@@ -1,37 +1,68 @@
-@import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
-@import "../../node_modules/bootstrap/scss/mixins";
 
-$primary: #FAD841 !default;
-$theme-colors: (
-  "primary":    #FAD841,
-  "secondary":  $secondary,
-  "success":    $success,
-  "info":       $info,
-  "warning":    $warning,
-  "danger":     $danger,
-  "light":      $light,
-  "dark":       $dark
-);
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$manguito-frontend-primary: mat.define-palette(mat.$indigo-palette);
+$manguito-frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$manguito-frontend-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$manguito-frontend-theme: mat.define-light-theme((
+  color: (
+    primary: $manguito-frontend-primary,
+    accent: $manguito-frontend-accent,
+    warn: $manguito-frontend-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($manguito-frontend-theme);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+//@import "../../node_modules/bootstrap/scss/functions";
+//@import "../../node_modules/bootstrap/scss/variables";
+//@import "../../node_modules/bootstrap/scss/mixins";
+//
+//$primary: #FAD841 !default;
+//$theme-colors: (
+//  "primary":    #FAD841,
+//  "secondary":  $secondary,
+//  "success":    $success,
+//  "info":       $info,
+//  "warning":    $warning,
+//  "danger":     $danger,
+//  "light":      $light,
+//  "dark":       $dark
+//);
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap');
 
-body {
-  font-family: Inter, sans-serif;
-}
+html, body { height: 100%; }
+
+body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
 
 .btn {
   font-size: 16px;
   border-radius: 48px;
   padding: 8px 24px;
   font-weight: bold;
-}
-
-.btn-primary {
-  --bs-btn-bg: #FAD841;
-  --bs-btn-color: $black;
-  --bs-btn-border-color: #FAD841;
-  //background-color: #FAD841;
 }
 
 .form-control-lg, .form-control {

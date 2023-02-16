@@ -16,6 +16,9 @@ import { PagosComponent } from './perfil/pagos/pagos.component';
 import { OtrosComponent } from './perfil/otros/otros.component';
 import { EmprendimientosComponent } from './emprendimientos/emprendimientos.component';
 import { DetalleEmprendimientoComponent } from './emprendimientos/detalle-emprendimiento/detalle-emprendimiento.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { DetalleEmprendimientoComponent } from './emprendimientos/detalle-empren
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonToggleModule,
+    MatButtonModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
