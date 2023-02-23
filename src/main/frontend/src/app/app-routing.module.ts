@@ -12,12 +12,13 @@ import { EmprendimientosComponent } from './emprendimientos/emprendimientos.comp
 import {
   DetalleEmprendimientoComponent
 } from './emprendimientos/detalle-emprendimiento/detalle-emprendimiento.component'
+import {AuthGuard} from "./auth/auth.guard";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
-    path: 'perfil', component: PerfilComponent, children: [
+    path: 'perfil', canActivate: [AuthGuard], component: PerfilComponent, children: [
       { path: '', pathMatch: 'full', redirectTo: 'cuenta'},
       { path: 'cuenta', pathMatch: 'full', component: CuentaComponent},
       { path: 'redes-sociales', component: RedesSocialesComponent},
