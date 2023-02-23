@@ -1,34 +1,30 @@
-<div class="container-md text-center d-flex justify-content-center">
+<div class="text-center flex justify-center">
   <div class="mt-5" style="max-width: 500px; min-width: 350px;">
-    <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
-      <h4 class="text-bold mb-4"><strong>Iniciar sesión</strong></h4>
-      <div class="form-floating mb-3">
+    <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm" class="flex flex-col gap-7">
+      <h4 class="text-2xl font-bold">Iniciar sesión</h4>
         <input
           type="email"
-          class="form-control form-control-lg"
-          id="floatingInput"
-          placeholder="name@example.com"
+          class="form-control"
+          placeholder="Email"
           name="mail"
           ngModel
+          required
+          email
         />
-        <label for="floatingInput">Email address</label>
-      </div>
-      <div class="form-floating mb-3">
         <input
           type="password"
           class="form-control"
-          id="floatingPassword"
           placeholder="Password"
           name="password"
           ngModel
+          required
+          minlength="6"
         />
-        <label for="floatingPassword">Password</label>
-      </div>
-      <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-      </div>
-      <div class="mt-2">
-        <p class="text-start">¿No estás registrado? <a class="text-muted" routerLink="/register">Crear cuenta</a></p>
+      <div class="flex flex-col gap-3">
+        <button type="submit" class="btn bg-primary">Iniciar Sesión</button>
+        <p class="text-sm text-start font-semibold">
+          ¿No estás registrado? <a class="underline text-gray-500" routerLink="/register">Crear cuenta</a>
+        </p>
       </div>
     </form>
   </div>

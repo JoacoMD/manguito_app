@@ -36,23 +36,9 @@ $manguito-frontend-theme: mat.define-light-theme((
 @tailwind components;
 @tailwind utilities;
 
-//@import "../../node_modules/bootstrap/scss/functions";
-//@import "../../node_modules/bootstrap/scss/variables";
-//@import "../../node_modules/bootstrap/scss/mixins";
-//
-//$primary: #FAD841 !default;
-//$theme-colors: (
-//  "primary":    #FAD841,
-//  "secondary":  $secondary,
-//  "success":    $success,
-//  "info":       $info,
-//  "warning":    $warning,
-//  "danger":     $danger,
-//  "light":      $light,
-//  "dark":       $dark
-//);
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap');
+
+$primary: #FAD841 !default;
 
 html, body { height: 100%; }
 
@@ -65,10 +51,32 @@ body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
   font-weight: bold;
 }
 
-.form-control-lg, .form-control {
+.form-control {
   border-radius: 48px;
   padding: 8px 24px;
+  border: solid 2px #B9B9B9;
 }
+
+.form-control-url {
+  border-radius: 48px;
+  padding: 8px 24px 8px 120px;
+  border: solid 2px #B9B9B9;
+}
+
+.form-control-textarea {
+  padding: 8px 24px;
+  border: solid 2px #B9B9B9;
+  border-radius: 24px;
+}
+
+.bg-primary {
+  background: $primary;
+}
+
+.form-label {
+  @apply block mb-2 text-sm font-semibold
+}
+
 
 
 

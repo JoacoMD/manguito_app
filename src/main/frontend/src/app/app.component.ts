@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
-import { User } from './services/user.model';
+import { User } from './models/user.model';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,18 @@ export class AppComponent implements OnInit{
 
   user: User | null = null
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
     this.authService.user.subscribe(user => this.user = user)
     this.authService.autoLogin()
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   title = 'manguito-frontend';

@@ -1,27 +1,25 @@
-<main class="px-3 text-center text-bg-dark py-5">
-  <div class="container-md">
-    <h1 class="text-3xl font-bold">Potenciá tus ideas!</h1>
-    <p class="lead">
+<main class="text-center text-bg-dark">
+  <div class="container-md bg-gray-300">
+    <h1 class="text-4xl font-bold p-10">Potenciá tus ideas!</h1>
+    <p class="font-bold text-xl w-1/2 m-auto">
       Manguito es una plataforma de financiamiento colectivo donde creadores de
       contenido, ONGs o dueños de proyectos, puedan registrarse para recibir
       donaciones online.
     </p>
-    <form class="row">
-      <div class="col-sm-9">
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon3">manguito.app/ </span>
+    <form class="flex items-center justify-center gap-3 pb-16 pt-10">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <span class="input-group-text" >manguito.app/ </span>
+          </div>
           <input
             type="text"
-            class="form-control"
-            id="basic-url"
-            aria-describedby="basic-addon3"
+            class="block w-full form-control-url"
             [(ngModel)]="url"
             [ngModelOptions]="{standalone: true}"
           />
         </div>
-      </div>
       <div class="col-sm-3">
-        <a class="btn btn-lg btn-primary col" (click)="goToRegister()">Crear cuenta</a>
+        <a class="btn btn-lg bg-primary col" (click)="goToRegister()">Crear cuenta</a>
       </div>
     </form>
   </div>

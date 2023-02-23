@@ -1,12 +1,24 @@
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid container-md">
-    <a class="navbar-brand" routerLink="/">Manguito</a>
-    <div class="d-flex gap-2" role="search">
-      <button class="btn btn-secondary">Explorar</button>
-      <a *ngIf="!user" routerLink="/login"
-        ><button class="btn btn-primary">Iniciar Sesión</button></a
-      >
-      <a *ngIf="user"><button class="btn btn-primary">Perfil</button></a>
+<nav class="p-3">
+  <div class="flex justify-between items-center">
+    <a routerLink="/">
+      <div class="flex items-center gap-2">
+        <img src="assets/manguito.png" alt="Logo de Manguito" style="height: 40px"/>
+        <p class="font-bold text-gray-700 text-lg">Manguito</p>
+      </div>
+    </a>
+    <div class="flex items-center gap-2">
+      <button class="btn bg-gray-300">Explorar</button>
+      <a *ngIf="!user" routerLink="/login">
+        <button class="btn bg-primary">Iniciar Sesión</button>
+      </a>
+      <a *ngIf="user">
+        <button mat-button [matMenuTriggerFor]="menu">Perfil</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/perfil">Editar perfil</button>
+          <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+        </mat-menu>
+
+      </a>
     </div>
   </div>
 </nav>

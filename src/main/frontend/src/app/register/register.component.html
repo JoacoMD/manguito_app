@@ -1,12 +1,14 @@
-<div class="container-md text-center d-flex justify-content-center">
+<div class="text-center flex justify-center">
   <div class="mt-5" style="max-width: 500px; min-width: 350px">
-    <form (ngSubmit)="onRegister(registerForm)" #registerForm="ngForm">
-      <h4 class="text-bold mb-4"><strong>Crear cuenta</strong></h4>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon3">manguito.app/ </span>
+    <form (ngSubmit)="onRegister(registerForm)" #registerForm="ngForm" class="flex flex-col gap-7">
+      <h4 class="text-2xl font-bold">Crear cuenta</h4>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <span class="input-group-text" id="basic-addon3">manguito.app/ </span>
+        </div>
         <input
           type="text"
-          class="form-control"
+          class="block w-full pl-20 p-2.5 form-control-url"
           id="basic-url"
           aria-describedby="basic-addon3"
           [(ngModel)]="url"
@@ -14,49 +16,34 @@
           name="url"
         />
       </div>
-
-      <div class="form-floating mb-3">
-        <input
-          type="email"
-          class="form-control form-control-lg"
-          id="floatingInput"
-          placeholder="name@example.com"
-          name="mail"
-          ngModel
-          required
-        />
-        <label for="floatingInput">Email address</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input
-          type="password"
-          class="form-control"
-          id="floatingPassword"
-          placeholder="Password"
-          name="password"
-          ngModel
-          required
-        />
-        <label for="floatingPassword">Password</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input
-          type="password"
-          name="passwordConfirmation"
-          class="form-control"
-          id="floatingPasswordConfirm"
-          placeholder="Password"
-          ngModel
-          required
-        />
-        <label for="floatingPassword">Confirm password</label>
-      </div>
-      <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">Registrarse</button>
-      </div>
-      <div class="mt-2">
-        <p class="text-start">
-          ¿Ya tenes cuenta? <a class="text-muted" routerLink="/login">Iniciar sesión</a>
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Email"
+        name="mail"
+        ngModel
+        required
+      />
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Password"
+        name="password"
+        ngModel
+        required
+      />
+      <input
+        type="password"
+        name="passwordConfirmation"
+        class="form-control"
+        placeholder="Confirm password"
+        ngModel
+        required
+      />
+      <div class="flex flex-col gap-3">
+        <button type="submit" class="btn bg-primary">Registrarse</button>
+        <p class="text-sm text-start font-semibold">
+          ¿Ya tenes cuenta? <a class="underline text-gray-500" routerLink="/login">Iniciar sesión</a>
         </p>
       </div>
     </form>
