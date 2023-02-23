@@ -3,29 +3,37 @@ package app.manguito.backend.security;
 import app.manguito.backend.entities.Usuario;
 import app.manguito.backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UsuarioRepository userRepository;
+    UsuarioRepository usuarioRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+    @Transactional
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByMail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Usuario con email '" + email + "' no encontrado")
+                );
 
-        Usuario user = userRepository.findByMail(usernameOrEmail);
-        if(user != null){
-            return new org.springframework.security.core.userdetails.User(user.getMail()
-                    , user.getPassword(),
-                    Collections.singleton(new SimpleGrantedAuthority(user.getRol().getNombre())));
-        }else {
-            throw new UsernameNotFoundException("Invalid email or password");
-        }
+        return UserPrincipal.create(usuario);
+    }
+
+    // This method is used by JWTAuthenticationFilter
+    @Transactional
+    public UserDetails loadUserById(Long id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("Usuario con id '" + id + "' no encontrado")
+        );
+
+        return UserPrincipal.create(usuario);
     }
 }

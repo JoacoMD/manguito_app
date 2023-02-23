@@ -9,6 +9,7 @@ import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario findUsuarioByMail(String mail) {
-        return userRepository.findByMail(mail);
+        return userRepository.findByMail(mail)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Usuario con email '" + mail + "' no encontrado")
+                );
     }
 
     @Override

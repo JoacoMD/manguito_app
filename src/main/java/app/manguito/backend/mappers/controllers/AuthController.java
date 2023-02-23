@@ -1,7 +1,9 @@
-package app.manguito.backend.controllers;
+package app.manguito.backend.mappers.controllers;
 
+import app.manguito.backend.dto.JwtAuthenticationResponse;
 import app.manguito.backend.dto.NuevoUsuarioDTO;
 import app.manguito.backend.dto.UsuarioDTO;
+import app.manguito.backend.security.JwtTokenProvider;
 import app.manguito.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,9 @@ public class AuthController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    JwtTokenProvider tokenProvider;
+
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
 
@@ -34,7 +39,8 @@ public class AuthController {
             throw new Exception("Invalid credentials");
         }
 
-        return ResponseEntity.ok(authObject.getPrincipal());
+        String jwt = tokenProvider.generateToken(authObject);
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, authObject.getName(), tokenProvider.getJwtExpirationInMs()));
     }
 
     @PostMapping("/register")

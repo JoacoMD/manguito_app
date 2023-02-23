@@ -1,4 +1,4 @@
-package app.manguito.backend.controllers;
+package app.manguito.backend.mappers.controllers;
 
 import app.manguito.backend.dto.UsuarioDTO;
 import app.manguito.backend.entities.Usuario;
@@ -11,7 +11,7 @@ import java.security.Principal;
 
 @RequestMapping("/users")
 @RestController
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = "http://localhost:4200", methods= {RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true")
 public class UsuarioController {
 
     @Autowired
