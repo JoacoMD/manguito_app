@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { PerfilComponent } from './perfil/perfil.component';
@@ -24,6 +24,13 @@ import {MatInputModule} from "@angular/material/input";
 import {MatChipsModule} from "@angular/material/chips";
 import {AuthInterceptorService} from "./auth/auth-interceptor.service";
 import {MatMenuModule} from "@angular/material/menu";
+import { CompleteRegisterComponent } from './register/complete-register/complete-register.component';
+import {MatIconModule} from "@angular/material/icon";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { CategoriasAutocompleteComponent } from './utils/categorias-autocomplete/categorias-autocomplete.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { AdminComponent } from './admin/admin.component';
+import { CategoriasComponent } from './admin/categorias/categorias.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +44,11 @@ import {MatMenuModule} from "@angular/material/menu";
     PagosComponent,
     OtrosComponent,
     EmprendimientosComponent,
-    DetalleEmprendimientoComponent
+    DetalleEmprendimientoComponent,
+    CompleteRegisterComponent,
+    CategoriasAutocompleteComponent,
+    AdminComponent,
+    CategoriasComponent
   ],
     imports: [
         BrowserModule,
@@ -50,7 +61,11 @@ import {MatMenuModule} from "@angular/material/menu";
         MatFormFieldModule,
         MatInputModule,
         MatChipsModule,
-        MatMenuModule
+        MatMenuModule,
+        MatIconModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatProgressSpinnerModule
     ],
   providers: [AuthService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]

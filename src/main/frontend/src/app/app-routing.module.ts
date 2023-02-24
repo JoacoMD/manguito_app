@@ -13,10 +13,16 @@ import {
   DetalleEmprendimientoComponent
 } from './emprendimientos/detalle-emprendimiento/detalle-emprendimiento.component'
 import {AuthGuard} from "./auth/auth.guard";
+import {CompleteRegisterComponent} from "./register/complete-register/complete-register.component";
+import {AdminComponent} from "./admin/admin.component";
+import {CategoriasComponent} from "./admin/categorias/categorias.component";
+import {AdminGuard} from "./auth/admin.guard";
+import {LoggedGuard} from "./auth/logged.guard";
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', canActivate: [LoggedGuard], component: LoginComponent },
+  { path: 'register', canActivate: [LoggedGuard], component: RegisterComponent },
+  { path: 'complete-register', component: CompleteRegisterComponent },
   {
     path: 'perfil', canActivate: [AuthGuard], component: PerfilComponent, children: [
       { path: '', pathMatch: 'full', redirectTo: 'cuenta'},
@@ -24,6 +30,11 @@ const routes: Routes = [
       { path: 'redes-sociales', component: RedesSocialesComponent},
       { path: 'pagos', component: PagosComponent},
       { path: 'otros', component: OtrosComponent},
+    ]
+  },
+  { path: 'admin', canActivate: [AdminGuard], component: AdminComponent, children: [
+      {path: '', pathMatch: 'full', redirectTo: 'categorias'},
+      {path: 'categorias',component: CategoriasComponent}
     ]
   },
   { path: 'emprendimientos', component: EmprendimientosComponent},

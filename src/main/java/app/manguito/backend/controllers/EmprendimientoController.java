@@ -3,13 +3,18 @@ package app.manguito.backend.controllers;
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
 import app.manguito.backend.repositories.UsuarioRepository;
+import app.manguito.backend.security.CurrentUser;
+import app.manguito.backend.security.UserPrincipal;
 import app.manguito.backend.services.EmprendimientoService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Objects;
 
 
 @RestController
@@ -23,9 +28,21 @@ public class EmprendimientoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @GetMapping
+    public ResponseEntity<List<EmprendimientoDTO>> getEmprendimientos() {
+        return ResponseEntity.ok(emprendimientoService.findEmprendimientos());
+    }
+
     @GetMapping(path = "/{urlEmprendimiento}")
-    public ResponseEntity<EmprendimientoDTO> getEmprendimiento(@PathVariable String urlEmprendimiento) {
-        EmprendimientoDTO emprendimientoDTO = emprendimientoService.findEmprendimientoByUrl(urlEmprendimiento);
+    public ResponseEntity<EmprendimientoDTO> getEmprendimiento(
+            @PathVariable String urlEmprendimiento,
+            @CurrentUser UserPrincipal userPrincipal) {
+        EmprendimientoDTO emprendimientoDTO;
+        if (Objects.equals(urlEmprendimiento, "actual")) {
+            emprendimientoDTO = emprendimientoService.findEmprendimientoByMail(userPrincipal.getEmail());
+        } else {
+            emprendimientoDTO = emprendimientoService.findEmprendimientoByUrl(urlEmprendimiento);
+        }
 
         if (emprendimientoDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

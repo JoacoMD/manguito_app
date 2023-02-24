@@ -1,32 +1,99 @@
-<form>
+<div class="w-1/2 mb-3">
+<div class="mx-auto w-24 h-24 text-center ">
+  <label for="dropzone-pfp">
+  <div class="relative w-24">
+    <img class="w-24 h-24 rounded-full absolute" [src]="imagenPerfil?.src" alt="" />
+    <div class="w-24 h-24 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
+      <img class="hidden group-hover:block w-12" src="https://www.svgrepo.com/show/33565/upload.svg" alt="" />
+    </div>
+  </div>
+  </label>
+  <input id="dropzone-pfp" type="file" class="hidden" (change)="onPfpSelected($event)"/>
+</div>
+</div>
+<label class="form-label">Banner</label>
+<div class="flex items-center justify-center w-1/2 mb-3 h-64">
+  <label for="dropzone-file"
+         class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+    <div *ngIf="!bannerLoaded" class="flex flex-col items-center justify-center pt-5 pb-6">
+      <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
+           viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+      </svg>
+      <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click para subir imagen</span> o arrastra y suelta</p>
+      <p class="text-xs text-gray-500">PNG, JPG o GIF (MAX. 16MB)</p>
+    </div>
+
+    <img class="object-cover h-full" *ngIf="banner" [src]="banner.src"/>
+    <input id="dropzone-file" type="file" class="hidden" (change)="onFileSelected($event)"/>
+  </label>
+</div>
+<form (ngSubmit)="updateCuenta(cuentaForm)" class="w-1/2" #cuentaForm="ngForm">
   <div class="mb-3">
     <label for="nombre" class="form-label">Nombre</label>
-    <input class="form-control" id="nombre" placeholder="Emprendimiento">
+    <input
+      id="nombre"
+      name="nombreEmprendimiento"
+      class="form-control"
+      placeholder="Emprendimiento"
+      ngModel
+    >
   </div>
   <div class="mb-3">
     <label for="url" class="form-label">URL</label>
-    <input class="form-control" id="url" readonly>
+    <input
+      id="url"
+      class="form-control"
+      name="url"
+      ngModel
+      readonly
+    >
   </div>
   <div class="mb-3">
     <label for="descripcion" class="form-label">Descripción</label>
-    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+    <textarea
+      id="descripcion"
+      name="descripcion"
+      class="form-control-textarea"
+      rows="3"
+      ngModel
+    ></textarea>
   </div>
   <div class="mb-3">
-    <label for="categoria" class="form-label">Categorias</label>
-    <div class="d-flex gap-3">
-      <input class="form-control" id="categoria" placeholder="Buscar categoria...">
-      <button class="btn btn-primary">Agregar</button>
-    </div>
+    <app-categorias-autocomplete [categorias]="categorias" (onChange)="categorias=$event"
+                                 [disableAdd]="true"></app-categorias-autocomplete>
   </div>
   <div class="mb-3 form-check form-switch">
-    <input class="form-check-input" type="checkbox" role="switch" id="topDonadores" checked>
-    <label class="form-check-label" for="topDonadores">Mostrar Top Donadores</label>
+    <span class="form-label">Mostrar Top Donadores</span>
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input
+        id="topDonadores"
+        name="mostrarTopDonadores"
+        class="sr-only peer"
+        type="checkbox"
+        ngModel
+      >
+      <div
+        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"></div>
+    </label>
   </div>
   <div class="form-check form-switch mb-3">
-    <input class="form-check-input" type="checkbox" role="switch" id="ocultarManguitos">
-    <label class="form-check-label" for="ocultarManguitos">Ocultar manguitos recibidos</label>
+    <span class="form-label">Ocultar manguitos recibidos</span>
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input
+        id="ocultarManguitos"
+        name="ocultarManguitosRecibidos"
+        class="sr-only peer"
+        type="checkbox"
+        ngModel
+      >
+      <div
+        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"></div>
+    </label>
   </div>
-  <div class="mb-3">
-    <button class="btn btn-primary">Guardar cambios</button>
+  <div class="mt-3">
+    <button class="btn bg-primary" [disabled]="!cuentaForm.dirty">Guardar cambios</button>
   </div>
 </form>

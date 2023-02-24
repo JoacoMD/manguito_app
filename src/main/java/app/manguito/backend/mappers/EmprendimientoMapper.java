@@ -5,6 +5,8 @@ import app.manguito.backend.entities.Emprendimiento;
 import app.manguito.backend.repositories.CategoriaRepository;
 import org.mapstruct.*;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
         uses = {
                 FileMapper.class,
@@ -29,4 +31,6 @@ public interface EmprendimientoMapper {
     @Mapping(target = "actual.planes", source = "changes.planes")
     @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Emprendimiento update(@MappingTarget Emprendimiento actual, EmprendimientoDTO changes);
+
+    List<EmprendimientoDTO> toDTOList(List<Emprendimiento> emprendimientos);
 }

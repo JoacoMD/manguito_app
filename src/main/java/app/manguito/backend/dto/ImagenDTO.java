@@ -12,4 +12,6 @@ public class ImagenDTO {
     private Integer height;
 
     private Integer width;
+
+    private String extension;
 }

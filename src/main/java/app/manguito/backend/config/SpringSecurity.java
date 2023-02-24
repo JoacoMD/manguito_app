@@ -79,7 +79,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js").permitAll()
-                .antMatchers("/login", "/register").permitAll()
+                .antMatchers("/login", "/register", "/pre-register").permitAll()
                 .antMatchers(HttpMethod.GET, "/emprendimientos/**").permitAll()
                 .and()
                 .authorizeRequests().anyRequest().authenticated();

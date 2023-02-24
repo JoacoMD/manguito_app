@@ -21,6 +21,9 @@ public class Imagen {
     @Column
     private Integer width;
 
+    @Column
+    private String extension;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -52,5 +55,13 @@ public class Imagen {
 
     public void setWidth(Integer width) {
         this.width = width;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

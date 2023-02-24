@@ -7,17 +7,24 @@
       </div>
     </a>
     <div class="flex items-center gap-2">
-      <button class="btn bg-gray-300">Explorar</button>
+      <button class="btn bg-gray-300" routerLink="/emprendimientos">Explorar</button>
       <a *ngIf="!user" routerLink="/login">
         <button class="btn bg-primary">Iniciar Sesión</button>
       </a>
-      <a *ngIf="user">
+      <a *ngIf="user && user.rol === 'ROLE_USER'">
         <button mat-button [matMenuTriggerFor]="menu">Perfil</button>
         <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="'/emprendimientos/' + user.emprendimientoUrl">Ir a emprendimiento</button>
           <button mat-menu-item routerLink="/perfil">Editar perfil</button>
           <button mat-menu-item (click)="logout()">Cerrar sesión</button>
         </mat-menu>
-
+      </a>
+      <a *ngIf="user && user.rol === 'ROLE_ADMIN'">
+        <button mat-button [matMenuTriggerFor]="menu">Admin</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/admin">Panel de administrador</button>
+          <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+        </mat-menu>
       </a>
     </div>
   </div>

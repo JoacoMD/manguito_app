@@ -20,11 +20,11 @@ public class Emprendimiento {
     @Column(name = "nombre")
     private String nombreEmprendimiento;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "imagen_perfil_id")
     private Imagen imagenPerfil;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "imagen_banner_id")
     private Imagen banner;
 

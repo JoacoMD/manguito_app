@@ -1,0 +1,24 @@
+<label class="form-label">Categorias</label>
+<input placeholder="Buscar categoria..."
+       #catInput
+       [formControl]="catCtrl"
+       [matChipInputFor]="chipGrid"
+       [matAutocomplete]="auto"
+       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+       (matChipInputTokenEnd)="add($event)"
+       class="form-control w-full"
+       type="text"
+/>
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+  <mat-option *ngFor="let cat of filteredCategories | async" [value]="cat">
+    {{cat}}
+  </mat-option>
+</mat-autocomplete>
+<mat-chip-grid #chipGrid class="mt-3">
+  <mat-chip-row *ngFor="let cat of categories" (removed)="remove(cat)">
+    {{cat}}
+    <button matChipRemove [attr.aria-label]="'remove ' + cat">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-chip-row>
+</mat-chip-grid>

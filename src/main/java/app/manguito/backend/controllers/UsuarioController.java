@@ -1,4 +1,4 @@
-package app.manguito.backend.mappers.controllers;
+package app.manguito.backend.controllers;
 
 import app.manguito.backend.dto.UsuarioDTO;
 import app.manguito.backend.entities.Usuario;

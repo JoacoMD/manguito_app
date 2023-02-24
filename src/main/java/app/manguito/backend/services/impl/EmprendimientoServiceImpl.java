@@ -6,12 +6,15 @@ import app.manguito.backend.dto.EmprendimientoDTO;
 import app.manguito.backend.entities.Emprendimiento;
 import app.manguito.backend.entities.Suscripcion;
 import app.manguito.backend.entities.TransaccionManguito;
+import app.manguito.backend.entities.Usuario;
 import app.manguito.backend.mappers.EmprendimientoMapper;
 import app.manguito.backend.mappers.TransaccionMapper;
 import app.manguito.backend.repositories.EmprendimientoRepository;
 import app.manguito.backend.repositories.SuscripcionRepository;
 import app.manguito.backend.repositories.TransaccionManguitoRepository;
+import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.services.EmprendimientoService;
+import app.manguito.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +33,29 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     private SuscripcionRepository suscripcionRepository;
 
     @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private EmprendimientoMapper emprendimientoMapper;
 
     @Autowired
     private TransaccionMapper transaccionMapper;
 
     @Override
+    public List<EmprendimientoDTO> findEmprendimientos() {
+        return emprendimientoMapper.toDTOList(emprendimientoRepository.findAll());
+    }
+
+    @Override
     public EmprendimientoDTO findEmprendimientoByUrl(String url) {
         return emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
+    }
+
+    @Override
+    public EmprendimientoDTO findEmprendimientoByMail(String mail) {
+        Usuario usuario = usuarioRepository.findByMail(mail).orElse(null);
+        if (usuario == null) return null;
+        return emprendimientoMapper.toDTO(usuario.getEmprendimiento());
     }
 
     @Override

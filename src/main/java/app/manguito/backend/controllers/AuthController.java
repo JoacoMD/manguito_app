@@ -1,9 +1,11 @@
-package app.manguito.backend.mappers.controllers;
+package app.manguito.backend.controllers;
 
+import app.manguito.backend.dto.EmprendimientoDTO;
 import app.manguito.backend.dto.JwtAuthenticationResponse;
 import app.manguito.backend.dto.NuevoUsuarioDTO;
 import app.manguito.backend.dto.UsuarioDTO;
 import app.manguito.backend.security.JwtTokenProvider;
+import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST})
 public class AuthController {
@@ -24,6 +28,9 @@ public class AuthController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private EmprendimientoService emprendimientoService;
 
     @Autowired
     JwtTokenProvider tokenProvider;
@@ -40,7 +47,12 @@ public class AuthController {
         }
 
         String jwt = tokenProvider.generateToken(authObject);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, authObject.getName(), tokenProvider.getJwtExpirationInMs()));
+        String url = "";
+        if (authObject.getAuthorities().stream().anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_USER"))) {
+            EmprendimientoDTO emprendimiento = emprendimientoService.findEmprendimientoByMail(authObject.getName());
+            url = emprendimiento.getUrl();
+        }
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, authObject.getName(), tokenProvider.getJwtExpirationInMs(), url));
     }
 
     @PostMapping("/register")
@@ -55,6 +67,19 @@ public class AuthController {
 
         usuarioService.saveUsuario(usuarioDTO);
         return ResponseEntity.ok("Registro exitoso");
+    }
+
+    @PostMapping("pre-register")
+    public ResponseEntity<String> preRegister(@RequestBody NuevoUsuarioDTO usuarioDTO) {
+        if(!usuarioDTO.getPassword().equals(usuarioDTO.getPasswordConfirmation())) {
+            return ResponseEntity.badRequest().body("Contraseñas no coinciden");
+        }
+
+        if(usuarioService.existsUserOrEmprendimientoUrl(usuarioDTO)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuario ya registrado");
+        }
+
+        return ResponseEntity.ok("Datos validos para registro");
     }
 
 }

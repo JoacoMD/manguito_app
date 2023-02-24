@@ -62,7 +62,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private Rol checkRoleExist(){
         Rol role = new Rol();
-        role.setNombre("ROLE_ADMIN");
+        role.setNombre("ROLE_USER");
         return roleRepository.save(role);
     }
 }

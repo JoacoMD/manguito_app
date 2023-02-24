@@ -8,4 +8,6 @@ import java.util.List;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
     List<Categoria> findAllByNombreIn(List<String> nombres);
+
+    void deleteAllByNombreIn(List<String> nombres);
 }

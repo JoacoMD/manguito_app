@@ -1,23 +1,29 @@
 <div class="container-md d-flex justify-content-center">
-  <div class="row w-100 g-5 mt-1">
-    <div class="col col-3">
-      <div class="list-group text-end" role="tablist">
-        <a class="list-group-item list-group-item-action" routerLink="cuenta" routerLinkActive="active" role="tab">
+  <div class="grid grid-cols-12 w-full mt-1 gap-10">
+    <div class="col-span-4">
+      <ul class="list-group text-end text-gray-400 font-bold text-xl">
+        <li><a routerLink="cuenta" routerLinkActive="active" role="tab">
           Perfil
-        </a>
-        <a class="list-group-item list-group-item-action" routerLink="redes-sociales" routerLinkActive="active" role="tab">
+        </a></li>
+        <li><a routerLink="redes-sociales" routerLinkActive="active"
+               role="tab">
           Redes sociales
-        </a>
-        <a class="list-group-item list-group-item-action" routerLink="pagos" routerLinkActive="active" role="tab">
+        </a></li>
+        <li><a routerLink="pagos" routerLinkActive="active" role="tab">
           Pagos
-        </a>
-        <a class="list-group-item list-group-item-action" routerLink="otros" routerLinkActive="active" role="tab">
+        </a></li>
+        <li><a routerLink="otros" routerLinkActive="active" role="tab">
           Otros
-        </a>
-      </div>
+        </a></li>
+      </ul>
     </div>
-    <div class="col col-9">
-      <router-outlet></router-outlet>
+    <div class="col-span-8">
+      <div *ngIf="loading" class="flex justify-center items-center w-1/2 h-full">
+        <mat-spinner></mat-spinner>
+      </div>
+      <ng-template [ngIf]="!loading">
+        <router-outlet></router-outlet>
+      </ng-template>
     </div>
   </div>
 </div>

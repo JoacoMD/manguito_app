@@ -16,10 +16,12 @@ public interface ImagenMapper {
     @Mapping(target = "width", source = "width")
     @Mapping(target = "height", source = "height")
     @Mapping(target = "archivo", source = "archivo")
+    @Mapping(target = "extension", source = "extension")
     Imagen toEntity (ImagenDTO dto);
 
     @Mapping(target = "width", source = "width")
     @Mapping(target = "height", source = "height")
     @Mapping(target = "archivo", source = "archivo")
+    @Mapping(target = "extension", source = "extension")
     ImagenDTO toDTO (Imagen imagen);
 }

@@ -26,8 +26,8 @@ export class RegisterComponent implements OnInit{
 
   onRegister(form: NgForm) {
     if (form.valid) {
-      this.authService.register(form.value).subscribe(() => {
-        this.router.navigate(['/login'])
+      this.authService.preregister(form.value).subscribe(() => {
+        this.router.navigate(['/complete-register'], {state: form.value})
       })
     }
   }

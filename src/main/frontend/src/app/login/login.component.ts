@@ -12,6 +12,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin(loginForm: NgForm) {
+    console.log(loginForm)
     if (loginForm.valid) {
       this.authService
         .login(loginForm.value.mail, loginForm.value.password)

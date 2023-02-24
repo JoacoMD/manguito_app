@@ -1,5 +1,7 @@
 package app.manguito.backend.entities;
 
+import app.manguito.backend.services.CategoriaService;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,12 @@ public class Categoria {
 
     @Column(name = "nombre")
     private String nombre;
+
+    public Categoria(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Categoria() {}
 
     public Long getId() {
         return id;
