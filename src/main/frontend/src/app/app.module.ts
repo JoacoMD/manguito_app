@@ -31,6 +31,7 @@ import { CategoriasAutocompleteComponent } from './utils/categorias-autocomplete
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { AdminComponent } from './admin/admin.component';
 import { CategoriasComponent } from './admin/categorias/categorias.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { CategoriasComponent } from './admin/categorias/categorias.component';
         MatIconModule,
         MatAutocompleteModule,
         ReactiveFormsModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+      MatSnackBarModule
     ],
   providers: [AuthService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]

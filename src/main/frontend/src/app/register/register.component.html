@@ -43,7 +43,7 @@
         minlength="6"
       />
       <div class="flex flex-col gap-3">
-        <button type="submit" class="btn bg-primary">Registrarse</button>
+        <button type="submit" class="btn bg-primary disabled:bg-gray-200" [disabled]="loading">Registrarse</button>
         <p class="text-sm text-start font-semibold">
           ¿Ya tenes cuenta? <a class="underline text-gray-500" routerLink="/login">Iniciar sesión</a>
         </p>

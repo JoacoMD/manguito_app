@@ -43,7 +43,7 @@ public class AuthController {
             authObject = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioDTO.getMail(), usuarioDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authObject);
         } catch (BadCredentialsException e) {
-            throw new Exception("Invalid credentials");
+            return ResponseEntity.badRequest().body("Mail y/o contraseña incorrecta");
         }
 
         String jwt = tokenProvider.generateToken(authObject);

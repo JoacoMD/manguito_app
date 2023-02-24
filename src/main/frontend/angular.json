@@ -45,14 +45,14 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": true,
               "optimization": true,
-              "vendorChunk": false,
-              "extractLicenses": true,
+              "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "outputHashing": "all"
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           },
           "defaultConfiguration": "production"

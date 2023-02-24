@@ -60,7 +60,7 @@
         <app-categorias-autocomplete (onChange)="setCategories($event)" [disableAdd]="true"></app-categorias-autocomplete>
       </div>
       <div class="flex flex-col gap-3">
-        <button type="submit" class="btn bg-primary">Registrarse</button>
+        <button type="submit" class="btn bg-primary disabled:bg-gray-200" [disabled]="loading">Registrarse</button>
       </div>
     </form>
   </div>

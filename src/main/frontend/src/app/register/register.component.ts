@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from "../services/auth.service";
+import { finalize } from 'rxjs'
 
 @Component({
   selector: 'app-register',
@@ -23,11 +24,17 @@ export class RegisterComponent implements OnInit{
   }
 
   public url = ''
+  loading = false
 
   onRegister(form: NgForm) {
     if (form.valid) {
-      this.authService.preregister(form.value).subscribe(() => {
-        this.router.navigate(['/complete-register'], {state: form.value})
+      this.loading = true
+      this.authService.preregister(form.value)
+        .pipe(finalize(() => this.loading = false))
+        .subscribe((res) => {
+        if (res) {
+          this.router.navigate(['/complete-register'], {state: form.value})
+        }
       })
     }
   }

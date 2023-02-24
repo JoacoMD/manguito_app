@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {map} from "rxjs";
-import { NgForm} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { finalize, map } from 'rxjs'
+import { NgForm } from '@angular/forms'
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'app-complete-register',
@@ -15,18 +15,21 @@ export class CompleteRegisterComponent implements OnInit {
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-  ) {}
+  ) {
+  }
 
 
   userValues: any
 
-  pfpSrc: string = ""
+  pfpSrc: string = ''
   pfpLoaded: boolean = false
 
-  bannerSrc: string = ""
+  bannerSrc: string = ''
   bannerLoaded: boolean = false
 
   categorias: string[] = []
+
+  loading = false
 
   ngOnInit() {
     this.activatedRoute.paramMap
@@ -43,49 +46,54 @@ export class CompleteRegisterComponent implements OnInit {
       categorias: this.categorias
     }
     const { mail, password, passwordConfirmation } = this.userValues
+    this.loading = true
     this.authService.register({
       mail, password, passwordConfirmation, emprendimiento
-    }).subscribe(() => {
-      this.router.navigate(['/login'])
+    })
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((res) => {
+      if (res) {
+        this.router.navigate(['/login'])
+      }
     })
   }
 
   onBannerSelected(event: any) {
-    const file: File = event.target.files[0];
+    const file: File = event.target.files[0]
     if (file) {
-      this.bannerLoaded = false;
+      this.bannerLoaded = false
       this.encodeImage(file, (src: string) => {
-        this.bannerSrc = src;
-        this.bannerLoaded = true;
+        this.bannerSrc = src
+        this.bannerLoaded = true
       })
     }
   }
 
   onPfpSelected(event: any) {
-    const file: File = event.target.files[0];
+    const file: File = event.target.files[0]
     if (file) {
-      this.pfpLoaded = false;
+      this.pfpLoaded = false
       this.encodeImage(file, (src: string) => {
-        this.pfpSrc = src;
-        this.pfpLoaded = true;
+        this.pfpSrc = src
+        this.pfpLoaded = true
       })
     }
   }
 
   private encodeImage(file: File, callback: Function) {
-    const pattern = /image-*/;
-    const reader = new FileReader();
+    const pattern = /image-*/
+    const reader = new FileReader()
 
     if (!file.type.match(pattern)) {
-      alert('invalid format');
-      return;
+      alert('invalid format')
+      return
     }
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file)
     reader.onload = (e) => {
       // @ts-ignore
       callback(e.target.result)
-    };
+    }
   }
 
   setCategories(event: string[]) {

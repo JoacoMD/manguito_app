@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Component } from '@angular/core'
+import { NgForm } from '@angular/forms'
+import { Router } from '@angular/router'
+import { AuthService } from '../services/auth.service'
+import { finalize } from 'rxjs'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-login',
@@ -9,16 +11,26 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private _snackbar: MatSnackBar
+  ) {
+  }
+
+  loading = false
 
   onLogin(loginForm: NgForm) {
-    console.log(loginForm)
     if (loginForm.valid) {
+      this.loading = true
       this.authService
         .login(loginForm.value.mail, loginForm.value.password)
-        .subscribe(() => {
-          this.router.navigate(['/']);
-        });
+        .pipe(finalize(() => this.loading = false))
+        .subscribe((user) => {
+          if (user) {
+            this.router.navigate(['/'])
+          }
+        })
     }
   }
 }
