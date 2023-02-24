@@ -25,11 +25,11 @@ export class HttpHelperService {
           break;
       }
       if (response.status === 409)
-        this._snackbar.open(error, '', {
+        this._snackbar.open(error, 'Aceptar', {
           panelClass: ['bg-yellow-800']
         });
       else
-        this._snackbar.open(error, '', {
+        this._snackbar.open(error, 'Aceptar', {
           panelClass: ['bg-red-300']
         });
       return of(result as T);

@@ -30,13 +30,13 @@
     <input id="dropzone-file" type="file" class="hidden" (change)="onFileSelected($event)"/>
   </label>
 </div>
-<form (ngSubmit)="updateCuenta(cuentaForm)" class="w-1/2" #cuentaForm="ngForm">
+<form (ngSubmit)="updateCuenta(cuentaForm)" class="w-1/2 mb-10" #cuentaForm="ngForm">
   <div class="mb-3">
     <label for="nombre" class="form-label">Nombre</label>
     <input
       id="nombre"
       name="nombreEmprendimiento"
-      class="form-control"
+      class="form-control w-full"
       placeholder="Emprendimiento"
       ngModel
     >
@@ -45,7 +45,7 @@
     <label for="url" class="form-label">URL</label>
     <input
       id="url"
-      class="form-control"
+      class="form-control w-full"
       name="url"
       ngModel
       readonly
@@ -56,13 +56,13 @@
     <textarea
       id="descripcion"
       name="descripcion"
-      class="form-control-textarea"
-      rows="3"
+      class="form-control-textarea w-full"
+      rows="5"
       ngModel
     ></textarea>
   </div>
   <div class="mb-3">
-    <app-categorias-autocomplete [categorias]="categorias" (onChange)="categorias=$event"
+    <app-categorias-autocomplete [categorias]="categorias" (onChange)="onChangeCategorias($event)"
                                  [disableAdd]="true"></app-categorias-autocomplete>
   </div>
   <div class="mb-3 form-check form-switch">
@@ -94,6 +94,9 @@
     </label>
   </div>
   <div class="mt-3">
-    <button class="btn bg-primary" [disabled]="!cuentaForm.dirty">Guardar cambios</button>
+    <button class="btn bg-primary disabled:bg-gray-200"
+            [disabled]="!isDirty() || updating">
+      Guardar cambios
+    </button>
   </div>
 </form>

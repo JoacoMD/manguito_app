@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {PerfilService} from "../../services/perfil.service";
-import {NgForm} from "@angular/forms";
-import {DomSanitizer} from "@angular/platform-browser";
-import {Imagen} from "../../models/Imagen";
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { PerfilService } from '../../services/perfil.service'
+import { NgForm } from '@angular/forms'
+import { DomSanitizer } from '@angular/platform-browser'
+import { Imagen } from '../../models/Imagen'
+import { finalize } from 'rxjs'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-cuenta',
@@ -23,10 +25,14 @@ export class CuentaComponent implements OnInit {
   imagenPerfilUpdated: boolean = false
 
   categorias: string[] = []
+  categoriasUpdated: boolean = false
+
+  updating = false
 
   constructor(
     public perfilService: PerfilService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private _snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +57,7 @@ export class CuentaComponent implements OnInit {
   }
 
   updateCuenta(form: NgForm) {
-    if (form.valid || this.bannerUpdated || this.imagenPerfilUpdated) {
+    if (form.valid || this.bannerUpdated || this.imagenPerfilUpdated || this.categoriasUpdated) {
       let datos = form.value
       if (this.bannerUpdated) {
         datos.banner = {archivo: this.banner.src, extension: this.banner.extension}
@@ -59,7 +65,19 @@ export class CuentaComponent implements OnInit {
       if (this.imagenPerfilUpdated) {
         datos.imagenPerfil = {archivo: this.imagenPerfil.src, extension: this.imagenPerfil.extension}
       }
-      this.perfilService.actualizarDatos({...datos, categorias: this.categorias}).subscribe()
+      this.updating = true
+      this.perfilService.actualizarDatos({...datos, categorias: this.categorias})
+        .pipe(
+          finalize(() => this.updating = false)
+        )
+        .subscribe((res) => {
+          if (res) {
+            this.bannerUpdated = false
+            this.imagenPerfilUpdated = false
+            this.categoriasUpdated = false
+            this._snackbar.open('Datos actualizados correctamente')
+          }
+        })
     }
   }
 
@@ -107,6 +125,16 @@ export class CuentaComponent implements OnInit {
         this.imagenPerfilLoaded = true;
       };
     }
+  }
+
+  onChangeCategorias(cats) {
+    this.categorias = cats
+    this.categoriasUpdated = true
+  }
+
+  isDirty() {
+    const other = this.bannerUpdated || this.imagenPerfilUpdated || this.categoriasUpdated
+    return this.cuentaForm?.dirty || other
   }
 
 }
