@@ -3,6 +3,7 @@ package app.manguito.backend.services.impl;
 import app.manguito.backend.EstadoPago;
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
+import app.manguito.backend.dto.UpdateEmprendimientoDTO;
 import app.manguito.backend.entities.Emprendimiento;
 import app.manguito.backend.entities.Suscripcion;
 import app.manguito.backend.entities.TransaccionManguito;
@@ -14,7 +15,7 @@ import app.manguito.backend.repositories.SuscripcionRepository;
 import app.manguito.backend.repositories.TransaccionManguitoRepository;
 import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.services.EmprendimientoService;
-import app.manguito.backend.services.UsuarioService;
+import app.manguito.backend.services.R2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,9 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     @Autowired
     private TransaccionMapper transaccionMapper;
 
+    @Autowired
+    private R2Service r2Service;
+
     @Override
     public List<EmprendimientoDTO> findEmprendimientos() {
         return emprendimientoMapper.toDTOList(emprendimientoRepository.findAll());
@@ -64,10 +68,16 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     }
 
     @Override
-    public EmprendimientoDTO updateEmprendimiento(EmprendimientoDTO dto) {
+    public EmprendimientoDTO updateEmprendimiento(UpdateEmprendimientoDTO dto) {
         Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(dto.getUrl());
         if (emprendimiento == null) return null;
         emprendimiento = emprendimientoMapper.update(emprendimiento, dto);
+        if (dto.getNewBanner() != null) {
+            emprendimiento.setBanner(r2Service.saveImage(dto.getNewBanner()));
+        }
+        if (dto.getNewImagenPerfil() != null) {
+            emprendimiento.setImagenPerfil(r2Service.saveImage(dto.getNewImagenPerfil()));
+        }
         emprendimiento = emprendimientoRepository.save(emprendimiento);
         return emprendimientoMapper.toDTO(emprendimiento);
     }

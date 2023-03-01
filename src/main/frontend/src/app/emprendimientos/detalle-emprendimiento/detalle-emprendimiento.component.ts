@@ -28,8 +28,6 @@ export class DetalleEmprendimientoComponent implements OnInit {
       this.empService.getEmprendimiento(params['url'])
         .subscribe(emp => {
           this.emprendimiento = emp
-          this.banner = emp.banner && new Imagen(emp.banner?.archivo, emp.banner?.extension)
-          this.imagenPerfil = emp.imagenPerfil ? new Imagen(emp.imagenPerfil?.archivo, emp.imagenPerfil?.extension) : new Imagen('', ''),
           this.loading = false
         })
     })

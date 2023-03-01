@@ -11,5 +11,5 @@ public class RedSocialDTO {
 
     private String nombre;
 
-    private ImagenDTO icono;
+    private SaveImagenDTO icono;
 }

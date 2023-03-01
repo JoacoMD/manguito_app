@@ -11,18 +11,18 @@ public class Imagen {
     @Column(name = "id")
     private Long id;
 
-    @Lob
-    @Column(name = "archivo")
-    private byte[] archivo;
+    @Column(name = "filename")
+    private String filename;
 
     @Column
-    private Integer height;
+    private String type;
 
-    @Column
-    private Integer width;
+    public Imagen(String filename, String type) {
+        this.filename = filename;
+        this.type = type;
+    }
 
-    @Column
-    private String extension;
+    public Imagen() {}
 
     public void setId(Long id) {
         this.id = id;
@@ -33,35 +33,19 @@ public class Imagen {
         return id;
     }
 
-    public byte[] getArchivo() {
-        return archivo;
+    public String getType() {
+        return type;
     }
 
-    public void setArchivo(byte[] archivo) {
-        this.archivo = archivo;
+    public void setType(String extension) {
+        this.type = extension;
     }
 
-    public Integer getHeight() {
-        return height;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

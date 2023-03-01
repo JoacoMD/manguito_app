@@ -1,11 +1,9 @@
 package app.manguito.backend.controllers;
 
-import app.manguito.backend.dto.EmprendimientoDTO;
-import app.manguito.backend.dto.JwtAuthenticationResponse;
-import app.manguito.backend.dto.NuevoUsuarioDTO;
-import app.manguito.backend.dto.UsuarioDTO;
+import app.manguito.backend.dto.*;
 import app.manguito.backend.security.JwtTokenProvider;
 import app.manguito.backend.services.EmprendimientoService;
+import app.manguito.backend.services.R2Service;
 import app.manguito.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +32,9 @@ public class AuthController {
 
     @Autowired
     JwtTokenProvider tokenProvider;
+
+    @Autowired
+    R2Service r2Service;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
@@ -81,5 +82,4 @@ public class AuthController {
 
         return ResponseEntity.ok("Datos validos para registro");
     }
-
 }

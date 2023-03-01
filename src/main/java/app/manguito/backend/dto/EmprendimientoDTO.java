@@ -14,9 +14,9 @@ public class EmprendimientoDTO {
 
     private String nombreEmprendimiento;
 
-    private ImagenDTO imagenPerfil;
+    private String imagenPerfil;
 
-    private ImagenDTO banner;
+    private String banner;
 
     private String url;
 

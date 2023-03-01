@@ -2,11 +2,11 @@ package app.manguito.backend.controllers;
 
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
+import app.manguito.backend.dto.UpdateEmprendimientoDTO;
 import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.security.CurrentUser;
 import app.manguito.backend.security.UserPrincipal;
 import app.manguito.backend.services.EmprendimientoService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +54,7 @@ public class EmprendimientoController {
     @PutMapping(path = "/{urlEmprendimiento}")
     public ResponseEntity<EmprendimientoDTO> updateEmprendimiento(
             @PathVariable String urlEmprendimiento,
-            @RequestBody EmprendimientoDTO emprendimientoDTO,
+            @RequestBody UpdateEmprendimientoDTO emprendimientoDTO,
             Principal principal) {
         emprendimientoDTO.setUrl(urlEmprendimiento);
         if (principal == null || !usuarioRepository.existsByMailOrEmprendimiento_Url(principal.getName(), urlEmprendimiento)) {

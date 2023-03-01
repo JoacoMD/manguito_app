@@ -16,14 +16,14 @@ export class EmprendimientoService {
 
   getEmprendimientos() {
     return this.http.get<Emprendimiento[]>('http://localhost:8080/emprendimientos')
-      .pipe(
-        map(emps => emps.map(emp => ({
-            ...emp,
-            banner: emp.banner && new Imagen(emp.banner?.archivo, emp.banner?.extension),
-            imagenPerfil: emp.imagenPerfil ? new Imagen(emp.imagenPerfil?.archivo, emp.imagenPerfil?.extension) : new Imagen('', ''),
-          })
-        ))
-      )
+      // .pipe(
+      //   map(emps => emps.map(emp => ({
+      //       ...emp,
+      //       banner: emp.banner && new Imagen(emp.banner?.archivo, emp.banner?.type),
+      //       imagenPerfil: emp.imagenPerfil ? new Imagen(emp.imagenPerfil?.archivo, emp.imagenPerfil?.type) : new Imagen('', ''),
+      //     })
+      //   ))
+      // )
   }
 
 }

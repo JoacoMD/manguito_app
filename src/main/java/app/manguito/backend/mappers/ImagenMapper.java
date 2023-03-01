@@ -1,27 +1,18 @@
 package app.manguito.backend.mappers;
 
-import app.manguito.backend.dto.ImagenDTO;
 import app.manguito.backend.entities.Imagen;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-@Mapper(uses = {
-        FileMapper.class
-})
-public interface ImagenMapper {
+@Component
+public class ImagenMapper {
 
-    ImagenMapper INSTANCE = Mappers.getMapper( ImagenMapper.class );
+    @Value("${api.r2.bucket.url}")
+    private String bucketUrl;
 
-    @Mapping(target = "width", source = "width")
-    @Mapping(target = "height", source = "height")
-    @Mapping(target = "archivo", source = "archivo")
-    @Mapping(target = "extension", source = "extension")
-    Imagen toEntity (ImagenDTO dto);
+    public String toString(Imagen imagen) {
+        if (imagen == null) return "";
+        return String.format("%s/%s", bucketUrl, imagen.getFilename());
+    }
 
-    @Mapping(target = "width", source = "width")
-    @Mapping(target = "height", source = "height")
-    @Mapping(target = "archivo", source = "archivo")
-    @Mapping(target = "extension", source = "extension")
-    ImagenDTO toDTO (Imagen imagen);
 }

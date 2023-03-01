@@ -39,9 +39,9 @@ export class CuentaComponent implements OnInit {
     this.perfilService.emprendimiento.subscribe(emprendimiento => {
       if (emprendimiento) {
         setTimeout(() => {
-          this.banner = new Imagen(emprendimiento.banner?.archivo, emprendimiento.banner?.extension)
+          this.banner = emprendimiento.banner
           this.bannerLoaded = true
-          this.imagenPerfil = emprendimiento.imagenPerfil ? new Imagen(emprendimiento.imagenPerfil?.archivo, emprendimiento.imagenPerfil?.extension) : new Imagen('', '')
+          this.imagenPerfil = emprendimiento.imagenPerfil
           this.imagenPerfilLoaded = true
           this.categorias = emprendimiento.categorias
           this.cuentaForm.setValue({
@@ -60,10 +60,10 @@ export class CuentaComponent implements OnInit {
     if (form.valid || this.bannerUpdated || this.imagenPerfilUpdated || this.categoriasUpdated) {
       let datos = form.value
       if (this.bannerUpdated) {
-        datos.banner = {archivo: this.banner.src, extension: this.banner.extension}
+        datos.newBanner = {archivo: this.banner.rawSrc, type: this.banner.type}
       }
       if (this.imagenPerfilUpdated) {
-        datos.imagenPerfil = {archivo: this.imagenPerfil.src, extension: this.imagenPerfil.extension}
+        datos.newImagenPerfil = {archivo: this.imagenPerfil.rawSrc, type: this.imagenPerfil.type}
       }
       this.updating = true
       this.perfilService.actualizarDatos({...datos, categorias: this.categorias})
@@ -135,6 +135,10 @@ export class CuentaComponent implements OnInit {
   isDirty() {
     const other = this.bannerUpdated || this.imagenPerfilUpdated || this.categoriasUpdated
     return this.cuentaForm?.dirty || other
+  }
+
+  getSrc(imagen: any) {
+    return typeof imagen === 'string' ? imagen : imagen.src
   }
 
 }
