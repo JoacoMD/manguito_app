@@ -8,6 +8,7 @@ import app.manguito.backend.entities.Emprendimiento;
 import app.manguito.backend.entities.Suscripcion;
 import app.manguito.backend.entities.TransaccionManguito;
 import app.manguito.backend.entities.Usuario;
+import app.manguito.backend.exception.AppException;
 import app.manguito.backend.mappers.EmprendimientoMapper;
 import app.manguito.backend.mappers.TransaccionMapper;
 import app.manguito.backend.repositories.EmprendimientoRepository;
@@ -19,6 +20,7 @@ import app.manguito.backend.services.R2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 @Service
@@ -47,50 +49,74 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
 
     @Override
     public List<EmprendimientoDTO> findEmprendimientos() {
-        return emprendimientoMapper.toDTOList(emprendimientoRepository.findAll());
+        try {
+            return emprendimientoMapper.toDTOList(emprendimientoRepository.findAll());
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar emprendimientos", pe);
+        }
     }
 
     @Override
     public EmprendimientoDTO findEmprendimientoByUrl(String url) {
-        return emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
+        try {
+            return emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar el emprendimiento con url: " + url, pe);
+        }
     }
 
     @Override
     public EmprendimientoDTO findEmprendimientoByMail(String mail) {
-        Usuario usuario = usuarioRepository.findByMail(mail).orElse(null);
-        if (usuario == null) return null;
-        return emprendimientoMapper.toDTO(usuario.getEmprendimiento());
+        try {
+            Usuario usuario = usuarioRepository.findByMail(mail).orElse(null);
+            if (usuario == null) return null;
+            return emprendimientoMapper.toDTO(usuario.getEmprendimiento());
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar el emprendimiento", pe);
+        }
     }
 
     @Override
     public Emprendimiento saveEmprendimiento(EmprendimientoDTO dto) {
-        return emprendimientoRepository.save(emprendimientoMapper.toEntity(dto));
+        try {
+            return emprendimientoRepository.save(emprendimientoMapper.toEntity(dto));
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al intentar guardar el emprendimiento", pe);
+        }
     }
 
     @Override
     public EmprendimientoDTO updateEmprendimiento(UpdateEmprendimientoDTO dto) {
-        Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(dto.getUrl());
-        if (emprendimiento == null) return null;
-        emprendimiento = emprendimientoMapper.update(emprendimiento, dto);
-        if (dto.getNewBanner() != null) {
-            emprendimiento.setBanner(r2Service.saveImage(dto.getNewBanner()));
+        try {
+            Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(dto.getUrl());
+            if (emprendimiento == null) return null;
+            emprendimiento = emprendimientoMapper.update(emprendimiento, dto);
+            if (dto.getNewBanner() != null) {
+                emprendimiento.setBanner(r2Service.saveImage(dto.getNewBanner()));
+            }
+            if (dto.getNewImagenPerfil() != null) {
+                emprendimiento.setImagenPerfil(r2Service.saveImage(dto.getNewImagenPerfil()));
+            }
+            emprendimiento = emprendimientoRepository.save(emprendimiento);
+            return emprendimientoMapper.toDTO(emprendimiento);
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al intentar actualizar los datos del emprendimiento", pe);
         }
-        if (dto.getNewImagenPerfil() != null) {
-            emprendimiento.setImagenPerfil(r2Service.saveImage(dto.getNewImagenPerfil()));
-        }
-        emprendimiento = emprendimientoRepository.save(emprendimiento);
-        return emprendimientoMapper.toDTO(emprendimiento);
     }
 
     @Override
     public DonacionesDTO getDonacionesByEmprendimientoUrl(String emprendimientoUrl) {
-        if (!emprendimientoRepository.existsByUrl(emprendimientoUrl)) return null;
+        try {
+            if (!emprendimientoRepository.existsByUrl(emprendimientoUrl)) return null;
 
-        List<TransaccionManguito> manguitos = manguitoRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
-        List<Suscripcion> suscripciones = suscripcionRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
-        DonacionesDTO dto = new DonacionesDTO();
-        dto.setManguitos(transaccionMapper.toManguitoDTOList(manguitos));
-        dto.setSuscripciones(transaccionMapper.toSuscripcionDTOList(suscripciones));
-        return dto;
+            List<TransaccionManguito> manguitos = manguitoRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
+            List<Suscripcion> suscripciones = suscripcionRepository.findAllByDestinatario_UrlAndEstado(emprendimientoUrl, EstadoPago.APROBADO.getCodigo());
+            DonacionesDTO dto = new DonacionesDTO();
+            dto.setManguitos(transaccionMapper.toManguitoDTOList(manguitos));
+            dto.setSuscripciones(transaccionMapper.toSuscripcionDTOList(suscripciones));
+            return dto;
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar las donaciones", pe);
+        }
     }
 }

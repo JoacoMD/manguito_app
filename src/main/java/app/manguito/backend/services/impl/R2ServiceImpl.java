@@ -2,6 +2,7 @@ package app.manguito.backend.services.impl;
 
 import app.manguito.backend.dto.SaveImagenDTO;
 import app.manguito.backend.entities.Imagen;
+import app.manguito.backend.exception.AppException;
 import app.manguito.backend.mappers.FileMapper;
 import app.manguito.backend.services.R2Service;
 import com.amazonaws.auth.AWSCredentials;
@@ -40,12 +41,16 @@ public class R2ServiceImpl implements R2Service {
     AmazonS3 s3client;
 
     @Override
-    public Imagen saveImage(SaveImagenDTO imagen) {
+    public Imagen saveImage(SaveImagenDTO imagen) throws AppException {
         byte[] data = fileMapper.stringToByteArray(imagen.getArchivo());
-        InputStream fis = new ByteArrayInputStream(data);
-        String filename = UUID.randomUUID().toString().replace("-", "") + imagen.getExtension();
-        getClient().putObject(bucketName, filename, fis, getMetadataFromImagenDTO(imagen, data.length));
-        return new Imagen(filename, imagen.getType());
+        try {
+            InputStream fis = new ByteArrayInputStream(data);
+            String filename = UUID.randomUUID().toString().replace("-", "") + imagen.getExtension();
+            getClient().putObject(bucketName, filename, fis, getMetadataFromImagenDTO(imagen, data.length));
+            return new Imagen(filename, imagen.getType());
+        } catch (RuntimeException re) {
+            throw new AppException("Ocurrio un error al guardar la imagen", re);
+        }
     }
 
     private ObjectMetadata getMetadataFromImagenDTO(SaveImagenDTO imagen, int length) {

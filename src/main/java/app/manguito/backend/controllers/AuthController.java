@@ -1,6 +1,7 @@
 package app.manguito.backend.controllers;
 
 import app.manguito.backend.dto.*;
+import app.manguito.backend.exception.BadRequestException;
 import app.manguito.backend.security.JwtTokenProvider;
 import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.R2Service;
@@ -44,7 +45,7 @@ public class AuthController {
             authObject = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioDTO.getMail(), usuarioDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authObject);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("Mail y/o contraseña incorrecta");
+            throw new BadRequestException("Mail y/o contraseña incorrecta");
         }
 
         String jwt = tokenProvider.generateToken(authObject);
@@ -59,11 +60,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody NuevoUsuarioDTO usuarioDTO) {
         if(!usuarioDTO.getPassword().equals(usuarioDTO.getPasswordConfirmation())) {
-            return ResponseEntity.badRequest().body("Contraseñas no coinciden");
+            throw new BadRequestException("Contraseñas no coinciden");
         }
 
         if(usuarioService.existsUserOrEmprendimientoUrl(usuarioDTO)){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuario ya registrado");
+            throw new BadRequestException("Usuario ya registrado");
         }
 
         usuarioService.saveUsuario(usuarioDTO);
@@ -73,11 +74,11 @@ public class AuthController {
     @PostMapping("pre-register")
     public ResponseEntity<String> preRegister(@RequestBody NuevoUsuarioDTO usuarioDTO) {
         if(!usuarioDTO.getPassword().equals(usuarioDTO.getPasswordConfirmation())) {
-            return ResponseEntity.badRequest().body("Contraseñas no coinciden");
+            throw new BadRequestException("Contraseñas no coinciden");
         }
 
         if(usuarioService.existsUserOrEmprendimientoUrl(usuarioDTO)){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuario ya registrado");
+            throw new BadRequestException("Usuario ya registrado");
         }
 
         return ResponseEntity.ok("Datos validos para registro");
