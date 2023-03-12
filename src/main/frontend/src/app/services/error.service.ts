@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar'
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpHelperService {
 
-  constructor(
-    private _snackbar: MatSnackBar
-  ) { }
+  constructor(private toastr: ToastrService) {}
 
   public handleError<T>(operacion = 'operacion', result?: T) {
     return (response: any): Observable<T> => {
@@ -25,13 +23,9 @@ export class HttpHelperService {
           break;
       }
       if (response.status === 409)
-        this._snackbar.open(error.message, 'Aceptar', {
-          panelClass: ['bg-yellow-800']
-        });
+        this.toastr.warning(error.message);
       else
-        this._snackbar.open(error.message, 'Aceptar', {
-          panelClass: ['bg-red-300']
-        });
+        this.toastr.error(error.message);
       return of(result as T);
     };
   }

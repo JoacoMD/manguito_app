@@ -37,6 +37,7 @@ $manguito-frontend-theme: mat.define-light-theme((
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap');
+@import 'ngx-toastr/toastr';
 
 $primary: #FAD841 !default;
 
