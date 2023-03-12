@@ -36,6 +36,8 @@ export class RegisterComponent implements OnInit{
           this.router.navigate(['/complete-register'], {state: form.value})
         }
       })
+    } else {
+      form.form.markAllAsTouched()
     }
   }
 }

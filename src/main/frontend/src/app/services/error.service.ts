@@ -23,9 +23,9 @@ export class HttpHelperService {
           break;
       }
       if (response.status === 409)
-        this.toastr.warning(error.message);
+        this.toastr.warning(error.message || error);
       else
-        this.toastr.error(error.message);
+        this.toastr.error(error.message || error);
       return of(result as T);
     };
   }

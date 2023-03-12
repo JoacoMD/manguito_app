@@ -31,6 +31,8 @@ export class LoginComponent {
             this.router.navigate(['/'])
           }
         })
+    } else {
+      loginForm.form.markAllAsTouched()
     }
   }
 }
