@@ -9,7 +9,7 @@
     <div class="flex items-center gap-2">
       <button class="btn bg-gray-300" routerLink="/emprendimientos">Explorar</button>
       <a *ngIf="!user" routerLink="/login">
-        <button class="btn bg-primary">Iniciar Sesión</button>
+        <button class="btn btn-primary">Iniciar Sesión</button>
       </a>
       <a *ngIf="user && user.rol === 'ROLE_USER'">
         <button mat-button [matMenuTriggerFor]="menu">Perfil</button>

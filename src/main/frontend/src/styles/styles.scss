@@ -40,16 +40,16 @@ $manguito-frontend-theme: mat.define-light-theme((
 @import 'ngx-toastr/toastr';
 
 $primary: #FAD841 !default;
+$primary-tint: #e8c72f;
+$primary-darker-tint: #c1a633;
+$primary-shade: #fbdc54;
 
 html, body { height: 100%; }
 
 body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
 
 .btn {
-  font-size: 16px;
-  border-radius: 48px;
-  padding: 8px 24px;
-  font-weight: bold;
+  @apply transition-all rounded-full font-bold px-6 py-2;
 }
 
 .form-control {
@@ -74,8 +74,22 @@ body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
   background: $primary;
 }
 
+.btn-primary {
+  background: $primary;
+  &:hover {
+    background: $primary-tint;
+  }
+  &:active {
+    background: $primary-darker-tint;
+  }
+}
+
 .form-label {
-  @apply block mb-2 text-sm font-semibold
+  @apply block mb-2 text-sm font-semibold;
+}
+
+.error-form {
+  border: solid 2px #dc2626;
 }
 
 
