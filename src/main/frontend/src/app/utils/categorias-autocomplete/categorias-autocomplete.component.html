@@ -7,6 +7,7 @@
        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
        (matChipInputTokenEnd)="add($event)"
        class="form-control w-full"
+       [ngClass]="{'error-form': error}"
        type="text"
 />
 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">

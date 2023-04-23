@@ -1,4 +1,4 @@
-<div class="container-md d-flex justify-content-center">
+<div class="container mx-auto">
   <div class="grid grid-cols-12 w-full mt-1 gap-10">
     <div class="col-span-4">
       <ul class="list-group text-end text-gray-400 font-bold text-xl">
@@ -21,9 +21,9 @@
       <div *ngIf="loading" class="flex justify-center items-center w-1/2 h-full">
         <mat-spinner></mat-spinner>
       </div>
-      <ng-template [ngIf]="!loading">
+      <div *ngIf="!loading" class="max-w-sm md:max-w-md">
         <router-outlet></router-outlet>
-      </ng-template>
+      </div>
     </div>
   </div>
 </div>

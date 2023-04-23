@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PerfilService} from "../../services/perfil.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-pagos',
@@ -9,10 +10,12 @@ import {PerfilService} from "../../services/perfil.service";
 export class PagosComponent implements OnInit {
 
   constructor(
-    public perfilService: PerfilService
+    public perfilService: PerfilService,
+    private _snackbar: MatSnackBar
   ) {}
 
   precio: number
+  updating: boolean = false
 
   ngOnInit(): void {
     this.perfilService.emprendimiento.subscribe(emprendimiento => {
@@ -22,6 +25,14 @@ export class PagosComponent implements OnInit {
   }
 
   updatePrecio() {
-    this.perfilService.actualizarDatos({ precioManguito: this.precio }).subscribe()
+    if (this.precio && this.precio > 1)
+      this.updating = true
+      this.perfilService.actualizarDatos({ precioManguito: this.precio })
+        .subscribe((res) => {
+          if (res) {
+            this.updating = false
+            this._snackbar.open('Datos actualizados correctamente', null, {duration: 2000})
+          }
+        })
   }
 }

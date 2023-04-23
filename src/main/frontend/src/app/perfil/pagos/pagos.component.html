@@ -6,9 +6,25 @@
       class="form-control"
       [(ngModel)]="precio"
       placeholder="100"
+      name="precio"
+      type="number"
+      [ngClass]="{'error-form': !precio || precio < 1}"
     >
+    <p class="ml-2 text-sm text-red-600 dark:text-red-500 text-left"
+       *ngIf="!precio">
+      Por favor inserte un precio</p>
+    <p class="ml-2 text-sm text-red-600 dark:text-red-500 text-left"
+       *ngIf="precio && precio < 1">
+      Por favor inserte un precio mayor o igual a 1</p>
   </div>
   <div class="mt-3">
-    <button class="btn bg-primary" (click)="updatePrecio()">Guardar cambios</button>
+    <button
+      class="btn btn-primary disabled:bg-gray-200 disabled:text-gray-600"
+      (click)="updatePrecio()"
+      [disabled]="updating"
+    >
+      <span *ngIf="!updating">Guardar cambios</span>
+      <span *ngIf="updating"><app-spinner></app-spinner>Guardando cambios...</span>
+    </button>
   </div>
 </form>

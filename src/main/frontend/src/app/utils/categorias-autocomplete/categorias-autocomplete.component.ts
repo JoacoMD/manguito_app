@@ -13,7 +13,7 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {CategoriaService} from "../../services/categoria.service";
 import {map, Observable, startWith} from "rxjs";
 import {FormControl} from "@angular/forms";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
@@ -45,6 +45,7 @@ export class CategoriasAutocompleteComponent implements OnInit, OnChanges {
 
   @Input() categorias: string[]
   @Input() disableAdd: boolean
+  @Input() error: boolean
 
   @ViewChild('catInput') catInput: ElementRef<HTMLInputElement>;
 

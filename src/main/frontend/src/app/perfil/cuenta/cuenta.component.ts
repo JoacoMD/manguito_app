@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { PerfilService } from '../../services/perfil.service'
-import { NgForm } from '@angular/forms'
+import {AbstractControl, NgForm} from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
 import { Imagen } from '../../models/Imagen'
 import { finalize } from 'rxjs'
@@ -37,23 +37,28 @@ export class CuentaComponent implements OnInit {
 
   ngOnInit(): void {
     this.perfilService.emprendimiento.subscribe(emprendimiento => {
-      if (emprendimiento) {
-        setTimeout(() => {
-          this.banner = emprendimiento.banner
-          this.bannerLoaded = true
-          this.imagenPerfil = emprendimiento.imagenPerfil
-          this.imagenPerfilLoaded = true
-          this.categorias = emprendimiento.categorias
-          this.cuentaForm.setValue({
-            nombreEmprendimiento: emprendimiento.nombreEmprendimiento,
-            url: emprendimiento.url,
-            descripcion: emprendimiento.descripcion,
-            mostrarTopDonadores: emprendimiento.mostrarTopDonadores,
-            ocultarManguitosRecibidos: emprendimiento.ocultarManguitosRecibidos
-          })
-        }, 100)
-      }
+      this.initForm(emprendimiento)
     })
+  }
+
+  private initForm(emprendimiento) {
+    if (emprendimiento) {
+      setTimeout(() => {
+        this.banner = emprendimiento.banner
+        this.bannerLoaded = true
+        this.imagenPerfil = emprendimiento.imagenPerfil
+        this.imagenPerfilLoaded = true
+        this.categorias = emprendimiento.categorias
+        console.log(this.cuentaForm)
+        this.cuentaForm.setValue({
+          nombreEmprendimiento: emprendimiento.nombreEmprendimiento,
+          url: emprendimiento.url,
+          descripcion: emprendimiento.descripcion,
+          mostrarTopDonadores: emprendimiento.mostrarTopDonadores,
+          ocultarManguitosRecibidos: emprendimiento.ocultarManguitosRecibidos
+        })
+      }, 0)
+    }
   }
 
   updateCuenta(form: NgForm) {
@@ -75,7 +80,7 @@ export class CuentaComponent implements OnInit {
             this.bannerUpdated = false
             this.imagenPerfilUpdated = false
             this.categoriasUpdated = false
-            this._snackbar.open('Datos actualizados correctamente')
+            this._snackbar.open('Datos actualizados correctamente', null, {duration: 2000})
           }
         })
     }
@@ -137,8 +142,15 @@ export class CuentaComponent implements OnInit {
     return this.cuentaForm?.dirty || other
   }
 
+  isErrorState(control: AbstractControl) {
+    const isSubmitted = this.cuentaForm && this.cuentaForm.submitted
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted))
+  }
+
+
+
   getSrc(imagen: any) {
-    return typeof imagen === 'string' ? imagen : imagen.src
+    return typeof imagen === 'string' ? imagen : imagen?.src
   }
 
 }
