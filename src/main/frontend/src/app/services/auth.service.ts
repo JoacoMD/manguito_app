@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, catchError, of, tap } from 'rxjs'
+import { BehaviorSubject, catchError, tap } from 'rxjs'
 import { User } from '../models/user.model'
 import { Router } from '@angular/router'
 import { Emprendimiento } from '../models/emprendimiento.model'
@@ -108,9 +108,5 @@ export class AuthService {
       this.autoLogout(+data.expiresIn)
       localStorage.setItem('ud', JSON.stringify(newUser))
     }
-  }
-
-  openSnackBar() {
-    this._snackbar.open('Cannonball!!', 'Splash', {})
   }
 }
