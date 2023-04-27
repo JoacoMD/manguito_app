@@ -1,0 +1,14 @@
+.social-media-btn {
+  @apply transition-all bg-opacity-70 bg-black rounded-full;
+  aspect-ratio: 1;
+  padding: 5px;
+}
+
+.social-media-btn:hover {
+  padding: 6px;
+}
+
+.social-media-btn img {
+  width: 24px;
+  height: 24px;
+}

@@ -19,6 +19,10 @@ public class RedSocialEmprendimiento {
     @JoinColumn(name = "red_social_id")
     private RedSocial redSocial;
 
+    public boolean containsUrl() {
+        return url != null && !url.isEmpty();
+    }
+
     public Long getId() {
         return id;
     }

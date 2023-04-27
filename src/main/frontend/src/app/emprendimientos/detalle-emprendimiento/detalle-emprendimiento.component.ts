@@ -29,8 +29,13 @@ export class DetalleEmprendimientoComponent implements OnInit {
         .subscribe(emp => {
           this.emprendimiento = emp
           this.loading = false
+          console.log(emp)
         })
     })
+  }
+
+  getSocialMediaLogoUrl(name: string): string {
+    return `assets/logos/logo-${name.toLowerCase()}.svg`
   }
 
 }

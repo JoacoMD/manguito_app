@@ -28,7 +28,7 @@ public class EmprendimientoDTO {
 
     private Boolean ocultarManguitosRecibidos;
 
-    private List<String> categorias = new ArrayList<>();
+    private List<String> categorias;
 
     private List<RedSocialEmprendimientoDTO> redesSociales;
 

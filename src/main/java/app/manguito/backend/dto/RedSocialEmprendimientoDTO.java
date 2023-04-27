@@ -11,5 +11,5 @@ public class RedSocialEmprendimientoDTO {
 
     private String url;
 
-    private RedSocialDTO redSocial;
+    private String redSocial;
 }

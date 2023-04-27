@@ -3,13 +3,12 @@ package app.manguito.backend.services.impl;
 import app.manguito.backend.EstadoPago;
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
+import app.manguito.backend.dto.RedSocialEmprendimientoDTO;
 import app.manguito.backend.dto.UpdateEmprendimientoDTO;
-import app.manguito.backend.entities.Emprendimiento;
-import app.manguito.backend.entities.Suscripcion;
-import app.manguito.backend.entities.TransaccionManguito;
-import app.manguito.backend.entities.Usuario;
+import app.manguito.backend.entities.*;
 import app.manguito.backend.exception.AppException;
 import app.manguito.backend.mappers.EmprendimientoMapper;
+import app.manguito.backend.mappers.RedSocialEmprendimientoMapper;
 import app.manguito.backend.mappers.TransaccionMapper;
 import app.manguito.backend.repositories.EmprendimientoRepository;
 import app.manguito.backend.repositories.SuscripcionRepository;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmprendimientoServiceImpl implements EmprendimientoService {
@@ -43,6 +43,9 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
 
     @Autowired
     private TransaccionMapper transaccionMapper;
+
+    @Autowired
+    private RedSocialEmprendimientoMapper redSocialEmprendimientoMapper;
 
     @Autowired
     private R2Service r2Service;
@@ -97,11 +100,30 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
             if (dto.getNewImagenPerfil() != null) {
                 emprendimiento.setImagenPerfil(r2Service.saveImage(dto.getNewImagenPerfil()));
             }
+            updateRedesSociales(emprendimiento, dto.getRedesSociales());
             emprendimiento = emprendimientoRepository.save(emprendimiento);
             return emprendimientoMapper.toDTO(emprendimiento);
         } catch (PersistenceException pe) {
             throw new AppException("Ocurrio un error al intentar actualizar los datos del emprendimiento", pe);
         }
+    }
+
+    private void updateRedesSociales(Emprendimiento emprendimiento, List<RedSocialEmprendimientoDTO> redesSociales) {
+        if (redesSociales == null) return;
+        List<RedSocialEmprendimiento> redesSocialesEntities = redSocialEmprendimientoMapper.toEntityList(redesSociales);
+        redesSocialesEntities.parallelStream().forEach(rs -> {
+           Optional<RedSocialEmprendimiento> redsocial = emprendimiento.getRedesSociales().stream()
+                   .filter(rse -> rse.getRedSocial().getNombre().equals(rs.getRedSocial().getNombre())).findAny();
+           if (redsocial.isPresent()) {
+               if (rs.containsUrl())
+                   redsocial.get().setUrl(rs.getUrl());
+               else
+                   emprendimiento.getRedesSociales().remove(redsocial.get());
+           } else {
+               if (rs.containsUrl())
+                   emprendimiento.getRedesSociales().add(rs);
+           }
+        });
     }
 
     @Override
