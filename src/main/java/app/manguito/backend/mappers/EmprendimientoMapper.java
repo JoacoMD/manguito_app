@@ -31,5 +31,10 @@ public interface EmprendimientoMapper {
     @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Emprendimiento update(@MappingTarget Emprendimiento actual, EmprendimientoDTO changes);
 
+    @Condition
+    default boolean hasUpdatedCategorias(List<String> changes) {
+        return changes != null && !changes.isEmpty();
+    }
+
     List<EmprendimientoDTO> toDTOList(List<Emprendimiento> emprendimientos);
 }
