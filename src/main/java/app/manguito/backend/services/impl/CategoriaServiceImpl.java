@@ -6,7 +6,6 @@ import app.manguito.backend.exception.AppException;
 import app.manguito.backend.mappers.CategoriaMapper;
 import app.manguito.backend.repositories.CategoriaRepository;
 import app.manguito.backend.services.CategoriaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
@@ -15,11 +14,13 @@ import java.util.List;
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
-    @Autowired
-    CategoriaRepository categoriaRepository;
+    final CategoriaRepository categoriaRepository;
+    final CategoriaMapper categoriaMapper;
 
-    @Autowired
-    CategoriaMapper categoriaMapper;
+    public CategoriaServiceImpl(CategoriaRepository categoriaRepository, CategoriaMapper categoriaMapper) {
+        this.categoriaRepository = categoriaRepository;
+        this.categoriaMapper = categoriaMapper;
+    }
 
     public List<String> getAll() {
         try {

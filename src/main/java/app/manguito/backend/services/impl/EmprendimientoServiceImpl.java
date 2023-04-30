@@ -13,7 +13,6 @@ import app.manguito.backend.repositories.TransaccionManguitoRepository;
 import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.R2Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
@@ -25,29 +24,25 @@ import java.util.stream.Collectors;
 @Service
 public class EmprendimientoServiceImpl implements EmprendimientoService {
 
-    @Autowired
-    private EmprendimientoRepository emprendimientoRepository;
+    private final EmprendimientoRepository emprendimientoRepository;
+    private final TransaccionManguitoRepository manguitoRepository;
+    private final SuscripcionRepository suscripcionRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final EmprendimientoMapper emprendimientoMapper;
+    private final TransaccionMapper transaccionMapper;
+    private final RedSocialEmprendimientoMapper redSocialEmprendimientoMapper;
+    private final R2Service r2Service;
 
-    @Autowired
-    private TransaccionManguitoRepository manguitoRepository;
-
-    @Autowired
-    private SuscripcionRepository suscripcionRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private EmprendimientoMapper emprendimientoMapper;
-
-    @Autowired
-    private TransaccionMapper transaccionMapper;
-
-    @Autowired
-    private RedSocialEmprendimientoMapper redSocialEmprendimientoMapper;
-
-    @Autowired
-    private R2Service r2Service;
+    public EmprendimientoServiceImpl(EmprendimientoRepository emprendimientoRepository, TransaccionManguitoRepository manguitoRepository, SuscripcionRepository suscripcionRepository, UsuarioRepository usuarioRepository, EmprendimientoMapper emprendimientoMapper, TransaccionMapper transaccionMapper, RedSocialEmprendimientoMapper redSocialEmprendimientoMapper, R2Service r2Service) {
+        this.emprendimientoRepository = emprendimientoRepository;
+        this.manguitoRepository = manguitoRepository;
+        this.suscripcionRepository = suscripcionRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.emprendimientoMapper = emprendimientoMapper;
+        this.transaccionMapper = transaccionMapper;
+        this.redSocialEmprendimientoMapper = redSocialEmprendimientoMapper;
+        this.r2Service = r2Service;
+    }
 
     @Override
     public List<EmprendimientoDTO> findEmprendimientos() {

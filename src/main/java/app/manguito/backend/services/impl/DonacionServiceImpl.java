@@ -11,7 +11,6 @@ import app.manguito.backend.repositories.*;
 import app.manguito.backend.services.DonacionService;
 import app.manguito.backend.services.MercadoPagoService;
 import com.mercadopago.resources.payment.Payment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -19,26 +18,23 @@ import java.util.Objects;
 @Service
 public class DonacionServiceImpl implements DonacionService {
 
-    @Autowired
-    private TransaccionManguitoRepository manguitoRepository;
+    private final TransaccionManguitoRepository manguitoRepository;
+    private final SuscripcionRepository suscripcionRepository;
+    private final TransaccionRepository transaccionRepository;
+    private final EmprendimientoRepository emprendimientoRepository;
+    private final PlanRepository planRepository;
+    private final MercadoPagoService mercadoPagoService;
+    private final TransaccionMapper transaccionMapper;
 
-    @Autowired
-    private SuscripcionRepository suscripcionRepository;
-
-    @Autowired
-    private TransaccionRepository transaccionRepository;
-
-    @Autowired
-    private EmprendimientoRepository emprendimientoRepository;
-
-    @Autowired
-    private PlanRepository planRepository;
-
-    @Autowired
-    private MercadoPagoService mercadoPagoService;
-
-    @Autowired
-    private TransaccionMapper transaccionMapper;
+    public DonacionServiceImpl(TransaccionManguitoRepository manguitoRepository, SuscripcionRepository suscripcionRepository, TransaccionRepository transaccionRepository, EmprendimientoRepository emprendimientoRepository, PlanRepository planRepository, MercadoPagoService mercadoPagoService, TransaccionMapper transaccionMapper) {
+        this.manguitoRepository = manguitoRepository;
+        this.suscripcionRepository = suscripcionRepository;
+        this.transaccionRepository = transaccionRepository;
+        this.emprendimientoRepository = emprendimientoRepository;
+        this.planRepository = planRepository;
+        this.mercadoPagoService = mercadoPagoService;
+        this.transaccionMapper = transaccionMapper;
+    }
 
     public String iniciarDonacionManguitos(NuevaDonacionDTO<DonacionManguitoDTO> donacion, boolean conMP) {
         Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(donacion.getEmprendimiento());

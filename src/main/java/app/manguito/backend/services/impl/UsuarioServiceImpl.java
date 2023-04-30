@@ -9,7 +9,6 @@ import app.manguito.backend.repositories.RolRepository;
 import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,20 +18,19 @@ import javax.persistence.PersistenceException;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    @Autowired
-    private UsuarioRepository userRepository;
+    private final UsuarioRepository userRepository;
+    private final UsuarioMapper usuarioMapper;
+    private final RolRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EmprendimientoService emprendimientoService;
 
-    @Autowired
-    private UsuarioMapper usuarioMapper;
-
-    @Autowired
-    private RolRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private EmprendimientoService emprendimientoService;
+    public UsuarioServiceImpl(UsuarioRepository userRepository, UsuarioMapper usuarioMapper, RolRepository roleRepository, PasswordEncoder passwordEncoder, EmprendimientoService emprendimientoService) {
+        this.userRepository = userRepository;
+        this.usuarioMapper = usuarioMapper;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.emprendimientoService = emprendimientoService;
+    }
 
 
     @Override
