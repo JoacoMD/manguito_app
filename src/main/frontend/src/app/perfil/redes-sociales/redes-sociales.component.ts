@@ -63,7 +63,6 @@ export class RedesSocialesComponent implements AfterViewInit {
       }
       return acc
     }, [])
-    console.log(values)
     this.updating = true
     this.perfilService.actualizarDatos({redesSociales: values})
       .pipe(finalize(() => {

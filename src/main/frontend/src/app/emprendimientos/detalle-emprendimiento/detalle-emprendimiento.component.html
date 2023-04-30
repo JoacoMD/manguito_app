@@ -37,20 +37,23 @@
           <h5 class="font-bold">Descripcion</h5>
           <p class="pt-3">{{ emprendimiento.descripcion }}</p>
         </div>
-        <div class="p-3">
-          <p>Manguitos <strong>x</strong> 10 recibidos</p>
+        <div class="p-3 flex items-center gap-1" *ngIf="!emprendimiento.ocultarManguitosRecibidos">
+          <img src="assets/manguito.png" style="width: 20px; height: 20px" alt="Manguitos"/>
+          <p><strong>×</strong> 10 recibidos</p>
         </div>
       </div>
       <div class="xl:col-span-3 md:col-span-6 sm:col-span-12">
         <div class="px-3 w-full flex flex-col gap-4">
           <h5 class="font-bold">Me das un manguito?</h5>
-          <div class="d-flex">
-            <input class="form-control w-1/4" value="1" type="number">
+          <div class="flex gap-2 items-center">
+            <img src="assets/manguito.png" style="width: 32px; height: 32px" alt="Manguitos"/>
+            <p class="font-bold text-xl">×</p>
+            <input class="form-control w-1/4" value="1" type="number" min="1">
           </div>
           <input class="form-control" placeholder="Nombre">
           <input class="form-control" placeholder="Contacto (Opcional)">
           <textarea class="form-control-textarea" id="mensaje" placeholder="Dejame un mensaje..."></textarea>
-          <p class="text-base text-gray-500">Donar 1 manguito ({{ emprendimiento.precioManguito }} ARS)</p>
+          <p class="text-sm text-gray-500">Donar 1 manguito ({{ emprendimiento.precioManguito }} ARS)</p>
           <div class="d-grid">
             <button class="btn bg-primary block w-full">Donar manguitos</button>
           </div>

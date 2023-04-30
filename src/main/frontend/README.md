@@ -7,7 +7,7 @@
 - [x] Edicion perfil 
 - [x] Editar imagenes 
 - [x] Editar categorias
-- [ ] Editar redes sociales
+- [x] Editar redes sociales
 - [ ] Editar planes
 - [x] Pagina de emprendimiento 
 - [ ] Donaciones 
