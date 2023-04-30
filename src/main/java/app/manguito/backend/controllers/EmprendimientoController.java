@@ -2,6 +2,7 @@ package app.manguito.backend.controllers;
 
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
+import app.manguito.backend.dto.TopDonadorDTO;
 import app.manguito.backend.dto.UpdateEmprendimientoDTO;
 import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.security.CurrentUser;
@@ -67,6 +68,15 @@ public class EmprendimientoController {
     @GetMapping(path = "/{urlEmprendimiento}/donaciones")
     public ResponseEntity<DonacionesDTO> getDonacionesEmprendimiento(@PathVariable String urlEmprendimiento) {
         DonacionesDTO dto = emprendimientoService.getDonacionesByEmprendimientoUrl(urlEmprendimiento);
+
+        if (dto == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping(path = "/{urlEmprendimiento}/top-donadores")
+    public ResponseEntity<List<TopDonadorDTO>> getTopDonadoresEmprendimiento(@PathVariable String urlEmprendimiento) {
+        List<TopDonadorDTO> dto = emprendimientoService.getTopDonadoresEmprendimiento(urlEmprendimiento);
 
         if (dto == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 

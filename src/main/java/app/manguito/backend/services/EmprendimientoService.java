@@ -2,6 +2,7 @@ package app.manguito.backend.services;
 
 import app.manguito.backend.dto.DonacionesDTO;
 import app.manguito.backend.dto.EmprendimientoDTO;
+import app.manguito.backend.dto.TopDonadorDTO;
 import app.manguito.backend.dto.UpdateEmprendimientoDTO;
 import app.manguito.backend.entities.Emprendimiento;
 
@@ -21,5 +22,5 @@ public interface EmprendimientoService {
 
     DonacionesDTO getDonacionesByEmprendimientoUrl(String emprendimientoUrl);
 
-
+    List<TopDonadorDTO> getTopDonadoresEmprendimiento(String emprendimientoUrl);
 }

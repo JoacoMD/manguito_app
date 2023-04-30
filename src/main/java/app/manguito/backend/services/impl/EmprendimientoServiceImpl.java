@@ -1,10 +1,7 @@
 package app.manguito.backend.services.impl;
 
 import app.manguito.backend.EstadoPago;
-import app.manguito.backend.dto.DonacionesDTO;
-import app.manguito.backend.dto.EmprendimientoDTO;
-import app.manguito.backend.dto.RedSocialEmprendimientoDTO;
-import app.manguito.backend.dto.UpdateEmprendimientoDTO;
+import app.manguito.backend.dto.*;
 import app.manguito.backend.entities.*;
 import app.manguito.backend.exception.AppException;
 import app.manguito.backend.mappers.EmprendimientoMapper;
@@ -20,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmprendimientoServiceImpl implements EmprendimientoService {
@@ -139,6 +138,23 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
             return dto;
         } catch (PersistenceException pe) {
             throw new AppException("Ocurrio un error al recuperar las donaciones", pe);
+        }
+    }
+
+    @Override
+    public List<TopDonadorDTO> getTopDonadoresEmprendimiento(String emprendimientoUrl) {
+        try {
+            Emprendimiento emprendimiento = emprendimientoRepository.findByUrl(emprendimientoUrl);
+            if (emprendimiento == null) return null;
+            if (!emprendimiento.getMostrarTopDonadores()) return Collections.emptyList();
+
+            return manguitoRepository.getTopDonadores(emprendimientoUrl)
+                    .stream()
+                    .sorted((a, b) -> Long.compare(b.getCantidadTotalManguitos(), a.getCantidadTotalManguitos()))
+                    .limit(5)
+                    .collect(Collectors.toList());
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar el top de donadores", pe);
         }
     }
 }
