@@ -1,8 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Emprendimiento} from "../models/emprendimiento.model";
-import {map} from "rxjs";
-import {Imagen} from "../models/Imagen";
 
 @Injectable({providedIn: 'root'})
 export class EmprendimientoService {
@@ -16,14 +14,10 @@ export class EmprendimientoService {
 
   getEmprendimientos() {
     return this.http.get<Emprendimiento[]>('http://localhost:8080/emprendimientos')
-      // .pipe(
-      //   map(emps => emps.map(emp => ({
-      //       ...emp,
-      //       banner: emp.banner && new Imagen(emp.banner?.archivo, emp.banner?.type),
-      //       imagenPerfil: emp.imagenPerfil ? new Imagen(emp.imagenPerfil?.archivo, emp.imagenPerfil?.type) : new Imagen('', ''),
-      //     })
-      //   ))
-      // )
+  }
+
+  getTopDonadoresEmprendimiento(url: string) {
+    return this.http.get<{nombre: string, cantidadManguitos: number}[]>(`http://localhost:8080/emprendimientos/${url}/top-donadores`)
   }
 
 }

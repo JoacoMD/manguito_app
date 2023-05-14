@@ -8,12 +8,14 @@
     <div class="absolute w-full" style="top: 78%">
       <div class="container mx-auto flex justify-between">
         <div class="flex items-center">
-          <div style="height: 80px; width: 80px" class="rounded-full border-4 border-white bg-white">
-            <img style="height: 80px; width: 80px" class="rounded-full object-cover" [src]="emprendimiento.imagenPerfil"
+          <div style="width: 80px" class="rounded-full border-4 border-white bg-white aspect-square">
+            <img style="width: 80px" class="rounded-full object-cover aspect-square" [src]="emprendimiento.imagenPerfil"
                  alt="Imagen de perfil"/>
           </div>
-          <div class="px-3 flex flex-col justify-center gap-1 mt-4">
-            <h4 class="text-white text-xl"><strong>{{ emprendimiento.nombreEmprendimiento }}</strong></h4>
+          <div class="px-3 flex flex-col justify-center gap-1 mt-2">
+            <h4 class="text-white text-xl bg-black bg-opacity-70 rounded-full font-bold w-min px-2 py-0.5 mb-1">
+              {{ emprendimiento.nombreEmprendimiento }}
+            </h4>
             <mat-chip-listbox *ngIf="emprendimiento">
               <mat-chip *ngFor="let cat of emprendimiento.categorias">
                 {{ cat }}
@@ -22,9 +24,10 @@
           </div>
         </div>
         <div class="flex gap-2 justify-end items-start">
-            <a *ngFor="let redSocial of emprendimiento.redesSociales" class="social-media-btn" [href]="redSocial.url" target="_blank">
-              <img [src]="getSocialMediaLogoUrl(redSocial.redSocial)" [alt]="redSocial.redSocial"/>
-            </a>
+          <a *ngFor="let redSocial of emprendimiento.redesSociales" class="social-media-btn" [href]="redSocial.url"
+             target="_blank">
+            <img [src]="getSocialMediaLogoUrl(redSocial.redSocial)" [alt]="redSocial.redSocial"/>
+          </a>
         </div>
       </div>
     </div>
@@ -32,14 +35,33 @@
 
   <div class="md:container mx-auto mt-20">
     <div class="grid grid-cols-12 w-full gap-5 mt-1">
-      <div class="col-span-6">
-        <div class="px-3">
+      <div class="col-span-6 flex flex-col gap-2">
+        <div class="px-3 min-w-min shadow-md rounded-md py-2">
           <h5 class="font-bold">Descripcion</h5>
           <p class="pt-3">{{ emprendimiento.descripcion }}</p>
         </div>
         <div class="p-3 flex items-center gap-1" *ngIf="!emprendimiento.ocultarManguitosRecibidos">
           <img src="assets/manguito.png" style="width: 20px; height: 20px" alt="Manguitos"/>
           <p><strong>×</strong> 10 recibidos</p>
+        </div>
+        <div *ngIf="topDonadores.length > 1" class="shadow-md rounded-md w-min p-2">
+          <h4 class="px-3 pt-3 pb-1.5 font-bold">Top donadores</h4>
+          <table class="table-top-donadores">
+            <thead>
+            <tr>
+              <td>Pos.</td>
+              <td>Nombre</td>
+              <td>Cantidad</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let donador of topDonadores; let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{donador.nombre}}</td>
+              <td>{{donador.cantidadTotalManguitos}}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="xl:col-span-3 md:col-span-6 sm:col-span-12">

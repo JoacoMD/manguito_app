@@ -12,3 +12,11 @@
   width: 24px;
   height: 24px;
 }
+
+.table-top-donadores td{
+  padding: 0.15rem 1rem;
+}
+
+.table-top-donadores thead {
+  @apply font-semibold;
+}

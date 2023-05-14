@@ -21,6 +21,7 @@ export class DetalleEmprendimientoComponent implements OnInit {
   banner: Imagen
   imagenPerfil: Imagen
   loading: boolean = false
+  topDonadores: any[] = []
 
   ngOnInit(): void {
     this.loading = true
@@ -29,7 +30,12 @@ export class DetalleEmprendimientoComponent implements OnInit {
         .subscribe(emp => {
           this.emprendimiento = emp
           this.loading = false
-          console.log(emp)
+          if (emp.mostrarTopDonadores) {
+            this.empService.getTopDonadoresEmprendimiento(emp.url)
+              .subscribe((top) => {
+                this.topDonadores = top
+              })
+          }
         })
     })
   }
