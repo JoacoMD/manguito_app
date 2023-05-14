@@ -56,7 +56,11 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     @Override
     public EmprendimientoDTO findEmprendimientoByUrl(String url) {
         try {
-            return emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
+            EmprendimientoDTO dto = emprendimientoMapper.toDTO(emprendimientoRepository.findByUrl(url));
+            if (!dto.getOcultarManguitosRecibidos()) {
+                dto.setManguitosRecibidos(manguitoRepository.getManguitosRecibidos(url).orElse(0L).intValue());
+            }
+            return dto;
         } catch (PersistenceException pe) {
             throw new AppException("Ocurrio un error al recuperar el emprendimiento con url: " + url, pe);
         }

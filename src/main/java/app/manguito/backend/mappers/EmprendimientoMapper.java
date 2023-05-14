@@ -16,6 +16,7 @@ import java.util.List;
         })
 public interface EmprendimientoMapper {
 
+    @Mapping(target = "manguitosRecibidos", ignore = true)
     EmprendimientoDTO toDTO(Emprendimiento emprendimiento);
 
     @Mapping(target = "imagenPerfil", ignore = true)

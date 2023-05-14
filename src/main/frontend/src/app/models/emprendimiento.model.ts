@@ -12,6 +12,7 @@ export class Emprendimiento {
     public precioManguito: number,
     public mostrarTopDonadores: boolean,
     public ocultarManguitosRecibidos: boolean,
+    public manguitosRecibidos: number,
     public redesSociales: RedSocial[],
     public planes: Plan[]
   ) {

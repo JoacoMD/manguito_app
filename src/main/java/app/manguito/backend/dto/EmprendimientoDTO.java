@@ -28,6 +28,8 @@ public class EmprendimientoDTO {
 
     private Boolean ocultarManguitosRecibidos;
 
+    private Integer manguitosRecibidos;
+
     private List<String> categorias;
 
     private List<RedSocialEmprendimientoDTO> redesSociales;
