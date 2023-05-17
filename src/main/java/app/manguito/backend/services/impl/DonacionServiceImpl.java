@@ -3,6 +3,7 @@ package app.manguito.backend.services.impl;
 import app.manguito.backend.EstadoPago;
 import app.manguito.backend.dto.DonacionManguitoDTO;
 import app.manguito.backend.dto.NuevaDonacionDTO;
+import app.manguito.backend.dto.StatusDonacionManguito;
 import app.manguito.backend.dto.SuscripcionDTO;
 import app.manguito.backend.entities.*;
 import app.manguito.backend.exception.BadRequestException;
@@ -65,5 +66,11 @@ public class DonacionServiceImpl implements DonacionService {
         if (payment.getStatus().equalsIgnoreCase(EstadoPago.PENDIENTE.getCodigo())) return;
         transaccion.setEstado(payment.getStatus());
         transaccionRepository.save(transaccion);
+    }
+
+    public StatusDonacionManguito getStatusByExternalReference(String externalReference) {
+        TransaccionManguito tm = manguitoRepository.findById(Long.parseLong(externalReference)).orElse(null);
+        if (tm == null) return null;
+        return transaccionMapper.toStatusManguito(tm, tm.getDestinatario());
     }
 }

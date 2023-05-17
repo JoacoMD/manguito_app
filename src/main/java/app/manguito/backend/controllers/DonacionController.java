@@ -2,12 +2,16 @@ package app.manguito.backend.controllers;
 
 import app.manguito.backend.dto.DonacionManguitoDTO;
 import app.manguito.backend.dto.NuevaDonacionDTO;
+import app.manguito.backend.dto.StatusDonacionManguito;
 import app.manguito.backend.dto.SuscripcionDTO;
 import app.manguito.backend.services.DonacionService;
+import com.amazonaws.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping(path = "/donaciones")
@@ -33,6 +37,11 @@ public class DonacionController {
         return ResponseEntity
                 .ok()
                 .build();
+    }
+
+    @GetMapping(path = "/status/{externalReference}")
+    public ResponseEntity<StatusDonacionManguito> getStatusDonacion(@PathVariable String externalReference) {
+        return ResponseEntity.ok(donacionService.getStatusByExternalReference(externalReference));
     }
 
     @PostMapping(path = "/suscripciones")

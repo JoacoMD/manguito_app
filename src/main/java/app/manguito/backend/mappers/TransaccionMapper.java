@@ -2,6 +2,7 @@ package app.manguito.backend.mappers;
 
 import app.manguito.backend.EstadoPago;
 import app.manguito.backend.dto.DonacionManguitoDTO;
+import app.manguito.backend.dto.StatusDonacionManguito;
 import app.manguito.backend.dto.SuscripcionDTO;
 import app.manguito.backend.entities.Emprendimiento;
 import app.manguito.backend.entities.Suscripcion;
@@ -34,4 +35,11 @@ public interface TransaccionMapper {
 
     List<DonacionManguitoDTO> toManguitoDTOList(List<TransaccionManguito> transacciones);
     List<SuscripcionDTO> toSuscripcionDTOList(List<Suscripcion> transacciones);
+
+    @Mapping(target = "externalReference", source = "transaccionManguito.id")
+    @Mapping(target = "urlEmprendimiento", source = "emprendimiento.url")
+    @Mapping(target = "cantidadManguitos", source = "transaccionManguito.cantidad")
+    @Mapping(target = "montoTotal", source = "transaccionManguito.monto")
+    StatusDonacionManguito toStatusManguito(TransaccionManguito transaccionManguito, Emprendimiento emprendimiento);
+
 }
