@@ -18,6 +18,7 @@ import {AdminComponent} from "./admin/admin.component";
 import {CategoriasComponent} from "./admin/categorias/categorias.component";
 import {AdminGuard} from "./auth/admin.guard";
 import {LoggedGuard} from "./auth/logged.guard";
+import {FeedbackDonacionComponent} from "./donaciones/feedback-donacion/feedback-donacion.component";
 
 const routes: Routes = [
   { path: 'login', canActivate: [LoggedGuard], component: LoginComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   },
   { path: 'emprendimientos', component: EmprendimientosComponent},
   { path: 'emprendimientos/:url', component: DetalleEmprendimientoComponent},
+  { path: 'donaciones/feedback', component: FeedbackDonacionComponent},
   { path: '', pathMatch: 'full', component: HomeComponent },
 ]
 

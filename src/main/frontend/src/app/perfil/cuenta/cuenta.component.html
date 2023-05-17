@@ -78,7 +78,7 @@
       [ngClass]="{'error-form': isErrorState(cuentaForm.controls['descripcion'])}"
     ></textarea>
     <p class="ml-2 text-sm text-red-600 dark:text-red-500 text-left"
-       *ngIf="cuentaForm.controls['nombreEmprendimiento'].hasError('maxlength')">
+       *ngIf="cuentaForm.controls['descripcion'].hasError('maxlength')">
       Descripción tiene un máximo de 255 carácteres</p>
   </div>
   <div class="mb-3">

@@ -37,6 +37,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ToastrModule} from "ngx-toastr";
 import {CommonModule} from "@angular/common";
 import {SpinnerComponent} from "./utils/spinner.component";
+import { SuccessDonacionComponent } from './donaciones/success-donacion/success-donacion.component';
+import { FeedbackDonacionComponent } from './donaciones/feedback-donacion/feedback-donacion.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import {SpinnerComponent} from "./utils/spinner.component";
     CategoriasAutocompleteComponent,
     AdminComponent,
     CategoriasComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SuccessDonacionComponent,
+    FeedbackDonacionComponent
   ],
   imports: [
     CommonModule,

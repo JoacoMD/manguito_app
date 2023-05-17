@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Emprendimiento} from "../../models/emprendimiento.model";
 import {EmprendimientoService} from "../../services/emprendimiento.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Imagen} from "../../models/Imagen";
+import {AbstractControl, NgForm} from "@angular/forms";
+import {DonacionService} from "../../services/donacion.service";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-detalle-emprendimiento',
@@ -13,15 +16,26 @@ export class DetalleEmprendimientoComponent implements OnInit {
 
   constructor(
     private empService: EmprendimientoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private donacionService: DonacionService
   ) {
   }
+
+  @ViewChild("donacionForm") donacionForm: NgForm
 
   emprendimiento: Emprendimiento
   banner: Imagen
   imagenPerfil: Imagen
   loading: boolean = false
   topDonadores: any[] = []
+  donating = false
+  defaultDonacion = {
+    cantidad: 1,
+    nombre: "",
+    contacto: "",
+    mensaje: "",
+  }
 
   ngOnInit(): void {
     this.loading = true
@@ -36,12 +50,36 @@ export class DetalleEmprendimientoComponent implements OnInit {
                 this.topDonadores = top
               })
           }
+          setTimeout(() => {
+            this.donacionForm.setValue(this.defaultDonacion);
+          })
         })
     })
   }
 
   getSocialMediaLogoUrl(name: string): string {
     return `assets/logos/logo-${name.toLowerCase()}.svg`
+  }
+
+  onDonarManguitos(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.donating = true
+    this.donacionService.realizarDonacion(this.emprendimiento.url, form.value)
+      .pipe(finalize(() => {
+        this.donating = false
+      }))
+      .subscribe((res) => {
+        if (res) {
+          this.router.navigate(['donaciones','feedback'], {queryParams: {external_reference: res}})
+        }
+      })
+  }
+
+  isErrorState(control: AbstractControl) {
+    const isSubmitted = this.donacionForm && this.donacionForm.submitted
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted))
   }
 
 }

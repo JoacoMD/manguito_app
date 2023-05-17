@@ -65,21 +65,52 @@
         </div>
       </div>
       <div class="xl:col-span-3 md:col-span-6 sm:col-span-12">
-        <div class="px-3 w-full flex flex-col gap-4">
-          <h5 class="font-bold">Me das un manguito?</h5>
-          <div class="flex gap-2 items-center">
-            <img src="assets/manguito.png" style="width: 32px; height: 32px" alt="Manguitos"/>
-            <p class="font-bold text-xl">×</p>
-            <input class="form-control w-1/4" value="1" type="number" min="1">
+        <form (ngSubmit)="onDonarManguitos(donacionForm)" #donacionForm="ngForm">
+          <div class="px-3 w-full flex flex-col gap-4">
+            <h5 class="font-bold">Me das un manguito?</h5>
+            <div>
+              <div class="flex gap-2 items-center">
+                <img src="assets/manguito.png" style="width: 32px; height: 32px" alt="Manguitos"/>
+                <p class="font-bold text-xl">×</p>
+                <input class="form-control w-32" type="number" min="1" ngModel name="cantidad" required
+                       [ngClass]="{'error-form': isErrorState(donacionForm.controls['cantidad'])}"
+                >
+              </div>
+              <p class="ml-2 text-sm text-red-600 dark:text-red-500 text-left"
+                 *ngIf="donacionForm.controls['cantidad'].hasError('required') && donacionForm.controls['cantidad'].dirty">
+                Ingrese la cantidad de manguitos a donar</p>
+              <p class="ml-2 text-sm text-red-600 dark:text-red-500 text-left"
+                 *ngIf="donacionForm.controls['cantidad'].hasError('min')">
+                La cantidad de manguitos debe ser por lo menos 1</p>
+            </div>
+            <div>
+              <input class="form-control block w-full" placeholder="Nombre" name="nombre" ngModel required
+                     [ngClass]="{'error-form': isErrorState(donacionForm.controls['nombre'])}"
+              >
+              <p class="ml-2 text-sm text-red-600 dark:text-red-500 text-left"
+                 *ngIf="donacionForm.controls['nombre'].hasError('required') && donacionForm.controls['nombre'].dirty">
+                Ingrese un nombre</p>
+            </div>
+            <input class="form-control block w-full" placeholder="Contacto (Opcional)" name="contacto" ngModel>
+            <div>
+              <textarea class="form-control-textarea block w-full" id="mensaje" placeholder="Dejame un mensaje..." name="mensaje"
+                        ngModel maxlength="255"
+                        [ngClass]="{'error-form': isErrorState(donacionForm.controls['mensaje'])}"
+              ></textarea>
+              <p class="ml-2 text-sm text-red-600 dark:text-red-500 text-left"
+                 *ngIf="donacionForm.controls['mensaje'].hasError('maxlength')">
+                Descripción tiene un máximo de 255 carácteres</p>
+            </div>
+            <p class="text-sm text-gray-500">Donar 1 manguito ({{ emprendimiento.precioManguito }} ARS)</p>
+            <div class="d-grid">
+              <button class="btn btn-primary block w-full disabled:bg-gray-200 disabled:text-gray-600"
+                      [disabled]="!donacionForm.dirty|| donating">
+                <span *ngIf="!donating">Donar manguitos</span>
+                <span *ngIf="donating"><app-spinner></app-spinner>Donando...</span>
+              </button>
+            </div>
           </div>
-          <input class="form-control" placeholder="Nombre">
-          <input class="form-control" placeholder="Contacto (Opcional)">
-          <textarea class="form-control-textarea" id="mensaje" placeholder="Dejame un mensaje..."></textarea>
-          <p class="text-sm text-gray-500">Donar 1 manguito ({{ emprendimiento.precioManguito }} ARS)</p>
-          <div class="d-grid">
-            <button class="btn bg-primary block w-full">Donar manguitos</button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

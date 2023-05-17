@@ -44,7 +44,7 @@ public class DonacionServiceImpl implements DonacionService {
             transaccionManguito.setEstado(EstadoPago.APROBADO.getCodigo());
         }
         transaccionManguito = manguitoRepository.save(transaccionManguito);
-        return conMP ? this.mercadoPagoService.crearCheckoutUrlManguitos(transaccionManguito, emprendimiento.getPrecioManguito()) : "";
+        return conMP ? this.mercadoPagoService.crearCheckoutUrlManguitos(transaccionManguito, emprendimiento.getPrecioManguito()) : transaccionManguito.getId().toString();
     }
 
     @Override
