@@ -1,13 +1,23 @@
 <div class="container mx-auto">
   <h1 class="text-center font-bold text-3xl pb-10">Explorar emprendimientos</h1>
+  <form #searchForm="ngForm" (ngSubmit)="onSearch(searchForm)">
+    <div class="flex justify-center items-center gap-4 mb-8">
+      <input class="form-control" placeholder="Buscar emprendimiento..." ngModel name="nombre">
+      <mat-select class="form-control max-w-sm" multiple ngModel name="categorias" placeholder="Filtrar categorias...">
+        <mat-option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</mat-option>
+      </mat-select>
+      <button class="btn btn-primary">Buscar</button>
+    </div>
+  </form>
   <div class="flex gap-5 flex-wrap justify-center">
-    <mat-spinner *ngIf="loading"></mat-spinner>
-    <div class="max-w-xs rounded overflow-hidden shadow-lg cursor-pointer" *ngFor="let emp of emprendimientos"
+    <app-spinner *ngIf="loading"></app-spinner>
+    <div class="max-w-xs rounded overflow-hidden shadow-lg cursor-pointer" *ngFor="let emp of pagina.content"
          [routerLink]="'/emprendimientos/' + emp.url">
       <div class="relative">
         <img class="w-full h-48" [src]="emp.banner" alt="Banner">
-        <img class="w-24 h-24 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 rounded-full border-4 border-white bg-white shadow-2xl"
-             alt="Imagen de perfil" [src]="emp.imagenPerfil">
+        <img
+          class="w-24 h-24 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 rounded-full border-4 border-white bg-white shadow-2xl"
+          alt="Imagen de perfil" [src]="emp.imagenPerfil || 'assets/default_user_avatar.png'">
       </div>
       <div class="px-3 py-1">
         <div class="font-bold text-xl mb-2">{{ emp.nombreEmprendimiento }}</div>
@@ -19,5 +29,16 @@
       >{{ categoria }}</span>
       </div>
     </div>
+  </div>
+  <div class="flex justify-center mt-8" *ngIf="pagina">
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="pagina.totalElements"
+      [pageSize]="pagina.size"
+      [showFirstLastButtons]="true"
+      [hidePageSize]="true"
+      [pageIndex]="currentPage"
+      aria-label="Select page">
+    </mat-paginator>
   </div>
 </div>

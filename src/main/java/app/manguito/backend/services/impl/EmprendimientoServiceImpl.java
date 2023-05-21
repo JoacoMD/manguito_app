@@ -7,12 +7,11 @@ import app.manguito.backend.exception.AppException;
 import app.manguito.backend.mappers.EmprendimientoMapper;
 import app.manguito.backend.mappers.RedSocialEmprendimientoMapper;
 import app.manguito.backend.mappers.TransaccionMapper;
-import app.manguito.backend.repositories.EmprendimientoRepository;
-import app.manguito.backend.repositories.SuscripcionRepository;
-import app.manguito.backend.repositories.TransaccionManguitoRepository;
-import app.manguito.backend.repositories.UsuarioRepository;
+import app.manguito.backend.repositories.*;
 import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.R2Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 public class EmprendimientoServiceImpl implements EmprendimientoService {
 
     private final EmprendimientoRepository emprendimientoRepository;
+    private final CustomEmprendimientoRepository customEmprendimientoRepository;
     private final TransaccionManguitoRepository manguitoRepository;
     private final SuscripcionRepository suscripcionRepository;
     private final UsuarioRepository usuarioRepository;
@@ -33,8 +33,9 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     private final RedSocialEmprendimientoMapper redSocialEmprendimientoMapper;
     private final R2Service r2Service;
 
-    public EmprendimientoServiceImpl(EmprendimientoRepository emprendimientoRepository, TransaccionManguitoRepository manguitoRepository, SuscripcionRepository suscripcionRepository, UsuarioRepository usuarioRepository, EmprendimientoMapper emprendimientoMapper, TransaccionMapper transaccionMapper, RedSocialEmprendimientoMapper redSocialEmprendimientoMapper, R2Service r2Service) {
+    public EmprendimientoServiceImpl(EmprendimientoRepository emprendimientoRepository, CustomEmprendimientoRepository customEmprendimientoRepository, TransaccionManguitoRepository manguitoRepository, SuscripcionRepository suscripcionRepository, UsuarioRepository usuarioRepository, EmprendimientoMapper emprendimientoMapper, TransaccionMapper transaccionMapper, RedSocialEmprendimientoMapper redSocialEmprendimientoMapper, R2Service r2Service) {
         this.emprendimientoRepository = emprendimientoRepository;
+        this.customEmprendimientoRepository = customEmprendimientoRepository;
         this.manguitoRepository = manguitoRepository;
         this.suscripcionRepository = suscripcionRepository;
         this.usuarioRepository = usuarioRepository;
@@ -154,6 +155,16 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
                     .collect(Collectors.toList());
         } catch (PersistenceException pe) {
             throw new AppException("Ocurrio un error al recuperar el top de donadores", pe);
+        }
+    }
+
+    @Override
+    public Page<EmprendimientoDTO> findEmprendimientos(FilterEmprendimientosDTO filter) {
+        try {
+            Page<Emprendimiento> page = customEmprendimientoRepository.findEmprendimientos(filter);
+            return new PageImpl<>(emprendimientoMapper.toDTOList(page.getContent()), page.getPageable(), page.getTotalElements());
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar los emprendimientos", pe);
         }
     }
 }

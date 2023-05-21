@@ -1,14 +1,11 @@
 package app.manguito.backend.controllers;
 
-import app.manguito.backend.dto.DonacionesDTO;
-import app.manguito.backend.dto.EmprendimientoDTO;
-import app.manguito.backend.dto.TopDonadorDTO;
-import app.manguito.backend.dto.UpdateEmprendimientoDTO;
+import app.manguito.backend.dto.*;
 import app.manguito.backend.repositories.UsuarioRepository;
 import app.manguito.backend.security.CurrentUser;
 import app.manguito.backend.security.UserPrincipal;
 import app.manguito.backend.services.EmprendimientoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +20,13 @@ import java.util.Objects;
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST})
 public class EmprendimientoController {
 
-    @Autowired
-    private EmprendimientoService emprendimientoService;
+    private final EmprendimientoService emprendimientoService;
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    public EmprendimientoController(EmprendimientoService emprendimientoService, UsuarioRepository usuarioRepository) {
+        this.emprendimientoService = emprendimientoService;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @GetMapping
     public ResponseEntity<List<EmprendimientoDTO>> getEmprendimientos() {
@@ -81,5 +80,14 @@ public class EmprendimientoController {
         if (dto == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping(path = "/search")
+    public ResponseEntity<Page<EmprendimientoDTO>> searchEmprendimientos(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) List<String> categorias,
+            @RequestParam(defaultValue = "0") Integer page
+            ) {
+        return ResponseEntity.ok(emprendimientoService.findEmprendimientos(new FilterEmprendimientosDTO(nombre, categorias, page)));
     }
 }

@@ -2,6 +2,8 @@ package app.manguito.backend.repositories;
 
 import app.manguito.backend.dto.TopDonadorDTO;
 import app.manguito.backend.entities.TransaccionManguito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -24,4 +26,6 @@ public interface TransaccionManguitoRepository extends JpaRepository<Transaccion
             "left join Transaccion t on t.id = tm.id " +
             "where t.estado = 'approved' and t.destinatario.url = ?1 ")
     Optional<Long> getManguitosRecibidos(String emprendimientoUrl);
+
+    Page<TransaccionManguito> findAllByDestinatario_Url(String emprendimientoUrl, Pageable pageable);
 }

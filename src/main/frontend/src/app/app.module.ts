@@ -39,6 +39,8 @@ import {CommonModule} from "@angular/common";
 import {SpinnerComponent} from "./utils/spinner.component";
 import { SuccessDonacionComponent } from './donaciones/success-donacion/success-donacion.component';
 import { FeedbackDonacionComponent } from './donaciones/feedback-donacion/feedback-donacion.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -61,26 +63,28 @@ import { FeedbackDonacionComponent } from './donaciones/feedback-donacion/feedba
     SuccessDonacionComponent,
     FeedbackDonacionComponent
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatButtonToggleModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    MatMenuModule,
-    MatIconModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    ToastrModule.forRoot({positionClass: 'toast-top-center'}),
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        MatMenuModule,
+        MatIconModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatProgressSpinnerModule,
+        MatSnackBarModule,
+        ToastrModule.forRoot({positionClass: 'toast-top-center'}),
+        MatSelectModule,
+        MatPaginatorModule
+    ],
   providers: [AuthService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
