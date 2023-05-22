@@ -1,0 +1,47 @@
+<table mat-table [dataSource]="dataSource" matSort matSortActive="fecha" matSortDirection="desc">
+  <!-- Position Column -->
+  <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Donador</th>
+    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="contacto">
+    <th mat-header-cell *matHeaderCellDef> Contacto</th>
+    <td mat-cell *matCellDef="let element"> {{element.contacto || '-'}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="cantidad">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
+    <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="monto">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto</th>
+    <td mat-cell *matCellDef="let element"> ARS${{element.monto}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="mensaje">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mensaje</th>
+    <td mat-cell *matCellDef="let element"> {{element.mensaje || '-'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="fecha">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
+    <td mat-cell *matCellDef="let element"> {{element.fecha.toLocaleString()}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background: rgba(250, 216, 65, 0.2)"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<div class="mat-cell p-4 grid place-items-center w-full" *ngIf="!dataSource.data || dataSource.data.length === 0 || loading">
+  <p *ngIf="!loading">No se encontraron donaciones.</p>
+  <app-spinner *ngIf="loading"></app-spinner>
+</div>
+<mat-paginator
+  showFirstLastButtons
+  pageSize="10"
+>
+</mat-paginator>

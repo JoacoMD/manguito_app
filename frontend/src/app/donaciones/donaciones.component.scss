@@ -1,0 +1,7 @@
+.donacion-tab-option {
+  @apply font-bold text-lg;
+}
+
+.active {
+  @apply text-black border-b-2 border-amber-300 py-0.5 decoration-amber-300;
+}
