@@ -90,4 +90,14 @@ public class EmprendimientoController {
             ) {
         return ResponseEntity.ok(emprendimientoService.findEmprendimientos(new FilterEmprendimientosDTO(nombre, categorias, page)));
     }
+
+    @GetMapping(path = "/most-donated")
+    public ResponseEntity<List<EmprendimientoDTO>> getEmprendimientosMasDonados() {
+        return ResponseEntity.ok(emprendimientoService.getEmprendimientosMasDonados());
+    }
+
+    @GetMapping(path = "/trending")
+    public ResponseEntity<List<EmprendimientoDTO>> getEmprendimientosDestacados() {
+        return ResponseEntity.ok(emprendimientoService.getEmprendimientosDestacados());
+    }
 }

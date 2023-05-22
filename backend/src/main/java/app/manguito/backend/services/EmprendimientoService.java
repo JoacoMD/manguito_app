@@ -23,4 +23,8 @@ public interface EmprendimientoService {
     List<TopDonadorDTO> getTopDonadoresEmprendimiento(String emprendimientoUrl);
 
     Page<EmprendimientoDTO> findEmprendimientos(FilterEmprendimientosDTO filter);
+
+    List<EmprendimientoDTO> getEmprendimientosMasDonados();
+
+    List<EmprendimientoDTO> getEmprendimientosDestacados();
 }

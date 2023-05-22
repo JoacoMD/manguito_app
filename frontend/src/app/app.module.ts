@@ -45,6 +45,9 @@ import {ListaManguitosComponent} from "./donaciones/lista-manguitos/lista-mangui
 import {DonacionesComponent} from "./donaciones/donaciones.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import { CardEmprendimientoComponent } from './emprendimientos/card-emprendimiento/card-emprendimiento.component';
+import { EmprendimientosDestacadosComponent } from './emprendimientos/emprendimientos-destacados/emprendimientos-destacados.component';
+import { EmprendimientosMasDonadosComponent } from './emprendimientos/emprendimientos-mas-donados/emprendimientos-mas-donados.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,10 @@ import {MatSortModule} from "@angular/material/sort";
     SuccessDonacionComponent,
     FeedbackDonacionComponent,
     ListaManguitosComponent,
-    DonacionesComponent
+    DonacionesComponent,
+    CardEmprendimientoComponent,
+    EmprendimientosDestacadosComponent,
+    EmprendimientosMasDonadosComponent
   ],
   imports: [
     CommonModule,

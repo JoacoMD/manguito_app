@@ -12,9 +12,11 @@ import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.R2Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -165,6 +167,27 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
             return new PageImpl<>(emprendimientoMapper.toDTOList(page.getContent()), page.getPageable(), page.getTotalElements());
         } catch (PersistenceException pe) {
             throw new AppException("Ocurrio un error al recuperar los emprendimientos", pe);
+        }
+    }
+
+    @Override
+    public List<EmprendimientoDTO> getEmprendimientosMasDonados() {
+        try {
+            List<Emprendimiento> emprendimientos = emprendimientoRepository.getEmprendimientosMasDonados(PageRequest.of(0, 4));
+            return emprendimientoMapper.toDTOList(emprendimientos);
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar los emprendimientos mas donados", pe);
+        }
+    }
+
+    @Override
+    public List<EmprendimientoDTO> getEmprendimientosDestacados() {
+        try {
+            LocalDateTime haceUnMes = LocalDateTime.now().minusDays(30);
+            List<Emprendimiento> emprendimientos = emprendimientoRepository.getEmprendimientosDestacados(haceUnMes, PageRequest.of(0, 4));
+            return emprendimientoMapper.toDTOList(emprendimientos);
+        } catch (PersistenceException pe) {
+            throw new AppException("Ocurrio un error al recuperar los emprendimientos destacados", pe);
         }
     }
 }

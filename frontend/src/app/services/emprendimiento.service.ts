@@ -28,4 +28,12 @@ export class EmprendimientoService {
     return this.http.get<{nombre: string, cantidadManguitos: number}[]>(`${environment.apiUrl}/emprendimientos/${url}/top-donadores`)
   }
 
+  getEmprendimientosMasDonados() {
+    return this.http.get<Emprendimiento[]>(environment.apiUrl + '/emprendimientos/most-donated')
+  }
+
+  getEmprendimientosDestacados() {
+    return this.http.get<Emprendimiento[]>(environment.apiUrl + '/emprendimientos/trending')
+  }
+
 }

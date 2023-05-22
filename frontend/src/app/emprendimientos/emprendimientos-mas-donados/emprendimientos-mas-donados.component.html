@@ -1,0 +1,6 @@
+<ng-template [ngIf]="emprendimientos.length > 0">
+    <h2 class="text-2xl text-left font-bold mb-4">Más donados</h2>
+    <div class="flex gap-6">
+        <app-card-emprendimiento *ngFor="let emp of emprendimientos" [emprendimiento]="emp"></app-card-emprendimiento>
+    </div>
+</ng-template>
