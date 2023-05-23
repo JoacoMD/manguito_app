@@ -18,7 +18,7 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
             "from TransaccionManguito tm " +
             "where tm.estado = 'approved' " +
             "group by tm.destinatario " +
-            "order by count(tm.cantidad) desc "
+            "order by sum(tm.cantidad) desc "
     )
     List<Emprendimiento> getEmprendimientosMasDonados(Pageable pageable);
 
@@ -26,7 +26,7 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
             "from TransaccionManguito tm " +
             "where tm.estado = 'approved' and tm.fecha > ?1 " +
             "group by tm.destinatario " +
-            "order by count(tm.cantidad) desc "
+            "order by sum(tm.cantidad) desc "
     )
     List<Emprendimiento> getEmprendimientosDestacados(LocalDateTime fecha, Pageable pageable);
 }
