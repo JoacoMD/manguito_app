@@ -4,16 +4,16 @@
 <ng-template [ngIf]="!loading">
   <div id="banner" class="relative bg-amber-300" style="height: 200px">
     <img class="absolute" [src]="emprendimiento.banner"
-         style="height: 200px; width: 100%; object-fit: cover" alt="banner">
+         style="height: 200px; width: 100%; object-fit: cover" alt=" ">
     <div class="absolute w-full" style="top: 78%">
       <div class="container mx-auto flex justify-between">
         <div class="flex items-center">
           <div style="width: 80px" class="rounded-full border-4 border-white bg-white aspect-square">
             <img style="width: 80px" class="rounded-full object-cover aspect-square" [src]="emprendimiento.imagenPerfil || 'assets/default_user_avatar.png'"
-                 alt="Imagen de perfil"/>
+                 alt=" "/>
           </div>
-          <div class="px-3 flex flex-col justify-center gap-1 mt-2">
-            <h4 class="text-white text-xl bg-black bg-opacity-70 rounded-full font-bold w-min px-2 py-0.5 mb-1">
+          <div class="px-3 flex flex-col justify-center gap-1 mt-2 flex-grow">
+            <h4 class="text-white text-xl bg-black bg-opacity-70 rounded-full font-bold w-fit px-2 py-0.5 mb-1">
               {{ emprendimiento.nombreEmprendimiento }}
             </h4>
             <mat-chip-listbox *ngIf="emprendimiento">

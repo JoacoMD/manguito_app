@@ -57,7 +57,7 @@ export class AuthService {
   preregister({ url, mail, password, passwordConfirmation }: RegisterValues) {
     return this.http.post(environment.apiUrl + '/pre-register', {
       mail, password, passwordConfirmation, emprendimiento: { url }
-    })
+    }, {responseType: 'text'})
       .pipe(
         catchError(this.errorService.handleError('Pre register', null)),
       )

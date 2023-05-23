@@ -3,10 +3,10 @@
   [routerLink]="'/emprendimientos/' + emprendimiento.url"
 >
   <div class="relative">
-    <img class="w-full h-48" [src]="emprendimiento.banner" alt="Banner" />
+    <img class="w-full h-48 bg-amber-300" [src]="emprendimiento.banner" alt=" " />
     <img
       class="w-24 h-24 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 rounded-full border-4 border-white bg-white shadow-2xl"
-      alt="Imagen de perfil"
+      alt=" "
       [src]="emprendimiento.imagenPerfil || 'assets/default_user_avatar.png'"
     />
   </div>

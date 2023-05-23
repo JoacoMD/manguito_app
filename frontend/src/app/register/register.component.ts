@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit{
       this.authService.preregister(form.value)
         .pipe(finalize(() => this.loading = false))
         .subscribe((res) => {
+          console.log(res)
         if (res) {
           this.router.navigate(['/complete-register'], {state: form.value})
         }

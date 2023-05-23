@@ -6,6 +6,7 @@ import app.manguito.backend.security.JwtTokenProvider;
 import app.manguito.backend.services.EmprendimientoService;
 import app.manguito.backend.services.R2Service;
 import app.manguito.backend.services.UsuarioService;
+import jdk.jfr.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +73,7 @@ public class AuthController {
         return ResponseEntity.ok("Registro exitoso");
     }
 
-    @PostMapping("pre-register")
+    @PostMapping(value = "pre-register", produces = "text/plain")
     public ResponseEntity<String> preRegister(@RequestBody NuevoUsuarioDTO usuarioDTO) {
         if(!usuarioDTO.getPassword().equals(usuarioDTO.getPasswordConfirmation())) {
             throw new BadRequestException("Contraseñas no coinciden");

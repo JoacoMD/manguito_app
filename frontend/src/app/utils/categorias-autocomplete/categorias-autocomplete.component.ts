@@ -33,7 +33,9 @@ export class CategoriasAutocompleteComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.categories = this.categorias;
+    if (this.categorias) {
+      this.categories = this.categorias;
+    }
   }
   separatorKeysCodes: number[] = [ENTER];
   catCtrl = new FormControl('');

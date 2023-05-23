@@ -83,6 +83,8 @@ public class EmprendimientoServiceImpl implements EmprendimientoService {
     @Override
     public Emprendimiento saveEmprendimiento(EmprendimientoDTO dto) {
         try {
+            dto.setOcultarManguitosRecibidos(false);
+            dto.setMostrarTopDonadores(true);
             return emprendimientoRepository.save(emprendimientoMapper.toEntity(dto));
         } catch (PersistenceException pe) {
             throw new AppException("Ocurrio un error al intentar guardar el emprendimiento", pe);
