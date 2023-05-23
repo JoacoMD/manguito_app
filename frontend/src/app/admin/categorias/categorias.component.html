@@ -4,8 +4,9 @@
       <input
         class="form-control"
         [(ngModel)]="input"
+        [ngModelOptions]="{standalone: true}"
       >
-      <button class="btn bg-primary" (click)="add()">Agregar</button>
+      <button class="btn btn-primary disabled:bg-gray-200" (click)="add()" [disabled]="loading">Agregar</button>
     </div>
     <mat-chip-grid class="mt-3">
       <mat-chip-row *ngFor="let cat of categorias" (removed)="remove(cat, 'old')">
@@ -23,7 +24,13 @@
     </mat-chip-grid>
   </div>
   <div class="mt-3">
-    <button class="btn bg-primary" (click)="updateCategorias()">Guardar cambios</button>
+    <button class="btn btn-primary disabled:bg-gray-200" (click)="updateCategorias()" [disabled]="loading || !isDirty()">
+      <span *ngIf="!loading">Guardar cambios</span>
+      <span *ngIf="loading">
+        <app-spinner></app-spinner>
+        Guardando...
+      </span>
+    </button>
   </div>
 </form>
 

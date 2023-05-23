@@ -14,6 +14,9 @@ export class CategoriaService {
   }
 
   updateCategorias(addedCategorias: string[], removedCategorias: string[]) {
-    return this.http.post(environment.apiUrl + '/categorias', {addedCategorias, removedCategorias})
+    return this.http.post(environment.apiUrl + '/categorias',
+        {addedCategorias, removedCategorias},
+        {responseType: 'text'}
+        )
   }
 }
